@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import express from "express";
+import App from '../App.vue';
+import {createApp} from "vue/dist/vue";
+const app = createApp(App)
+
 app.use(express.static(__dirname + '/public'));
 
 const router = createRouter({
