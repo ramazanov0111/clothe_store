@@ -33,7 +33,7 @@
 <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap/js/popper.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/select2/select2.min.js') }}"></script>
-<script>type="text/javascript"
+<script>
     // $(document).on('change', function () {
     $(".js-select2").each(function () {
         $(this).select2({
@@ -48,11 +48,11 @@
 <script type="text/javascript" src="{{ asset('assets/vendor/slick/slick.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/js/slick-custom.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/parallax100/parallax100.js') }}"></script>
-<script>type="text/javascript"
+<script>
     $('.parallax100').parallax100();
 </script>
 <script type="text/javascript" src="{{ asset('assets/vendor/MagnificPopup/jquery.magnific-popup.min.js') }}"></script>
-<script>type="text/javascript"
+<script>
     $('.gallery-lb').each(function () { // the containers for all your galleries
         $(this).magnificPopup({
             delegate: 'a', // the selector for gallery item
@@ -66,7 +66,7 @@
 </script>
 <script type="text/javascript" src="{{ asset('assets/vendor/isotope/isotope.pkgd.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/sweetalert/sweetalert.min.js') }}"></script>
-<script>type="text/javascript"
+<script>
     $('.js-addwish-b2').on('click', function (e) {
         e.preventDefault();
     });
@@ -102,7 +102,7 @@
     });
 </script>
 <script type="text/javascript" src="{{ asset('assets/vendor/perfect-scrollbar/perfect-scrollbar.min.js') }}"></script>
-<script>type="text/javascript"
+<script>
     $('.js-pscroll').each(function () {
         $(this).css('position', 'relative');
         $(this).css('overflow', 'hidden');
