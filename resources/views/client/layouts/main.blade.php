@@ -5,8 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <base href="/">
-
     <link rel="icon" type="image/png" href="{{ asset('assets/images/icons/favicon.png') }}"/>
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}">
     <link rel="stylesheet" type="text/css"
@@ -25,7 +23,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/util.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/main.css') }}">
 
-    <script src="{{ asset('public/js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
 @yield('content')
