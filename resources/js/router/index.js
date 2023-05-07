@@ -1,4 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import express from "express";
+app.use(express.static(__dirname + '/public'));
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
