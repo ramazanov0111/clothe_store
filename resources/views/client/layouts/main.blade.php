@@ -25,7 +25,7 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/util.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/main.css') }}">
 
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('public/js/app.js') }}" defer></script>
 </head>
 
 @yield('content')
