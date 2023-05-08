@@ -23,6 +23,8 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/util.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/main.css') }}">
 
+    <script src="{{ asset('js/manifest.js') }}" defer></script>
+    <script src="{{ asset('js/vendor.js') }}" defer></script>
     <script src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
