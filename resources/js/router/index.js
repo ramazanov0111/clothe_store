@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-// import express from "express";
+import express from "express";
 import App from '../App.vue';
 import {createApp} from "vue/dist/vue";
 const app = createApp(App)
 
-// app.use(express.static(__dirname + '/public'));
+app.use(express.static(__dirname + '/public/'));
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
