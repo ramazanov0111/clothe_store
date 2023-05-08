@@ -10,9 +10,11 @@
             var wrapSlick1 = $(this);
             var slick1 = $(this).find('.slick1');
 
+
             var itemSlick1 = $(slick1).find('.item-slick1');
             var layerSlick1 = $(slick1).find('.layer-slick1');
             var actionSlick1 = [];
+
 
             $(slick1).on('init', function () {
                 var layerCurrentItem = $(itemSlick1[0]).find('.layer-slick1');
@@ -159,7 +161,7 @@
                     dotsClass: 'slick3-dots',
                     customPaging: function (slick, index) {
                         var portrait = $(slick.$slides[index]).data('thumb');
-                        return '<img src=" ' + portrait + ' " alt="image"/><div class="slick3-dot-overlay"></div>';
+                        return '<img src=" ' + portrait + ' " alt="img"/><div class="slick3-dot-overlay"></div>';
                     },
                 });
             });

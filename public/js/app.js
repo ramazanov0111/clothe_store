@@ -20006,9 +20006,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
-
-// import './assets/main.css'
-
 var app = (0,vue__WEBPACK_IMPORTED_MODULE_0__.createApp)(_App_vue__WEBPACK_IMPORTED_MODULE_1__["default"]);
 app.use(_router__WEBPACK_IMPORTED_MODULE_2__["default"]);
 app.config.globalProperties.axios = (axios__WEBPACK_IMPORTED_MODULE_3___default());
