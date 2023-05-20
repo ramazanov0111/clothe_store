@@ -41,10 +41,36 @@
                     <div class="form-group">
                         <input type="text" value="{{ old('count') }}" name="count" class="form-control" placeholder="Количество">
                     </div>
+
                     <div class="form-group">
                         <div class="input-group">
                             <div class="custom-file">
                                 <input type="file" name="preview_image" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile">Выберите файл</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" name="gallery[]" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile">Выберите файл</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" name="gallery[]" class="custom-file-input" id="customFile">
+                                <label class="custom-file-label" for="customFile">Выберите файл</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <div class="custom-file">
+                                <input type="file" name="gallery[]" class="custom-file-input" id="customFile">
                                 <label class="custom-file-label" for="customFile">Выберите файл</label>
                             </div>
                         </div>

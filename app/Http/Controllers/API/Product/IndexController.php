@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API\Product;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Product\ClotheTypeResource;
 use App\Http\Resources\Product\ColorResource;
+use App\Http\Resources\Product\IndexProductResource;
 use App\Http\Resources\Product\PrintStyleResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\SizeResource;
@@ -22,7 +23,7 @@ class IndexController extends Controller
             ->get()
             ->all();
 
-        return ProductResource::collection($products);
+        return IndexProductResource::collection($products);
     }
 
     public function actionGetColorList(): AnonymousResourceCollection
@@ -63,8 +64,6 @@ class IndexController extends Controller
             ->get()
             ->first();
 
-        return $product->title;
-
-//        return new ProductResource($product);
+        return new ProductResource($product);
     }
 }

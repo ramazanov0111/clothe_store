@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\StoreRequest;
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\ProductTag;
 use Illuminate\Http\RedirectResponse;
@@ -17,7 +18,8 @@ class StoreController extends Controller
 
         $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
         $tagsIds = $data['tags'] ?? [];
-        unset($data['tags']);
+        $gallery = $data['gallery'] ?? [];
+        unset($data['tags'], $data['gallery']);
 
         /**
          * @var Product $product
@@ -28,6 +30,14 @@ class StoreController extends Controller
             ProductTag::query()->create([
                 'product_id' => $product->id,
                 'tag_id' => $tagId,
+            ]);
+        }
+
+        foreach ($gallery as $item) {
+            $imgPath = Storage::disk('public')->put('/images', $item);
+            Image::query()->create([
+                'product_id' => $product->id,
+                'filename' => $imgPath,
             ]);
         }
 

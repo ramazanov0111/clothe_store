@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Product\IndexController;
+use App\Http\Controllers\API\Product\PlayerController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,9 +22,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 //Route::get('/products', \App\Http\Controllers\API\Product\IndexController::class);
 Route::get('/products', [IndexController::class, 'actionGetProductList']);
-Route::get('/product', [IndexController::class, 'actionGetPlayerProduct']);
-
+Route::get('/products/filters', \App\Http\Controllers\API\Product\FilterListController::class);
 Route::get('/colors', [IndexController::class, 'actionGetColorList']);
 Route::get('/sizes', [IndexController::class, 'actionGetSizeList']);
 Route::get('/print_styles', [IndexController::class, 'actionGetPrintStyleList']);
 Route::get('/clothe_types', [IndexController::class, 'actionGetClotheTypeList']);
+Route::get('/products/{product}', \App\Http\Controllers\API\Product\ShowController::class);
+Route::get('/player_product', [PlayerController::class, 'actionGetPlayerProduct']);

@@ -19,11 +19,12 @@
 
                                 <div class="size-204 respon6-next">
                                     <div v-for="clotheType in clotheTypes" class="rs1-select2 bg0" id="radioset">
-                                        <input type="radio" :id="clotheType.name" :value="clotheType.code" name="radio" v-model="curClotheType">
+                                        <input type="radio" :id="clotheType.name" :value="clotheType.code" name="radio"
+                                               @click="getPlayerProduct(clotheType.code)">
+<!--                                               v-model="curClotheType">-->
                                         <label :for="clotheType.name">{{ clotheType.name }}</label>
                                     </div>
                                 </div>
-<!--                                <span>Выбрано: {{ curClotheType }}</span>-->
                             </div>
 
                             <div class="flex-w flex-r-m p-b-10">
@@ -87,22 +88,17 @@
                                 <div class="size-204 flex-w flex-m respon6-next">
                                     <div class="wrap-num-product flex-w m-r-20 m-tb-10">
 
-                                        <div
-                                            class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">
-                                            <i class="fs-16 zmdi zmdi-minus"></i>
-                                        </div>
-                                        <input class="mtext-104 cl3 txt-center num-product"
-                                               type="number" name="num-product" :value="num">
-                                        <div
-                                            class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">
-                                            <i class="fs-16 zmdi zmdi-plus"></i>
+                                        <div class="number" data-step="1" data-min="1" data-max="100">
+                                            <input class="number-text" type="text" name="count" value="1">
+                                            <a href="#" class="number-minus">−</a>
+                                            <a href="#" class="number-plus">+</a>
                                         </div>
 
                                     </div>
 
-                                    <button
-                                        class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
-                                        Добавить в корзину
+                                    <button @click.prevent="addToCart(product.id, false)"
+                                            class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+                                        В корзину
                                     </button>
                                 </div>
                             </div>
@@ -143,6 +139,7 @@
                             <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
                             <div class="slick3 gallery-lb">
+
                                 <div class="item-slick3" data-thumb="/assets/images/model/manuel-animated-001.jpg">
                                     <div class="wrap-pic-w pos-relative">
                                         <img src="/assets/images/model/manuel-animated-001.jpg" alt="IMG-PRODUCT">
@@ -175,6 +172,7 @@
                                         </a>
                                     </div>
                                 </div>
+
                             </div>
                         </div>
                     </div>
@@ -380,14 +378,14 @@
 <script>
 
 export default {
-    name: "Index",
+    name: "PlayerIndex",
     mounted() {
-        $(document).trigger('change')
+        // $(document).trigger('init')
         this.getColors()
         this.getSizes()
         this.getPrintStyles()
         this.getClotheTypes()
-        // this.getPlayerProduct()
+        this.getPlayerProduct()
     },
     data() {
         return {
@@ -396,22 +394,15 @@ export default {
             printStyles: [],
             clotheTypes: [],
 
-            curClotheType: 1,
+            // curClotheType: 1,
             curPrintStyle: 1,
             curSize: 1,
             curColor: 1,
 
             product: [],
-            num: 1,
         }
     },
     methods: {
-        setCount() {
-            this.num = 1
-        },
-        // setClotheType(clotheType) {
-        //     this.curClotheType = clotheType
-        // },
         setColor(color) {
             this.curColor = color
         },
@@ -421,17 +412,27 @@ export default {
         setPrintStyle(printStyle) {
             this.curPrintStyle = printStyle
         },
-        // getPlayerProduct() {
-        //     this.axios.get('/api/product', {
-        //         params: {
-        //             clotheType: this.curClotheType
-        //         }
-        //     })
+        getPlayerProduct(clotheType) {
+            this.axios.get('/api/player_product', {
+                params: {
+                    clotheType: clotheType
+                }
+            })
+                .then(res => {
+                    console.log(res);
+                    // this.product = res.data.data
+                })
+                .finally(v => {
+                    $(document).trigger('changed')
+                })
+        },
+        // getProduct() {
+        //     this.axios.get(`/api/player_products/${this.curClotheType}`)
         //         .then(res => {
         //             this.product = res.data.data
         //         })
         //         .finally(v => {
-        //             $(document).trigger('change')
+        //             $(document).trigger('changed')
         //         })
         // },
         getColors() {
@@ -440,7 +441,7 @@ export default {
                     this.colors = res.data.data
                 })
                 .finally(v => {
-                    $(document).trigger('change')
+                    $(document).trigger('changed')
                 })
         },
         getSizes() {
@@ -449,7 +450,7 @@ export default {
                     this.sizes = res.data.data
                 })
                 .finally(v => {
-                    $(document).trigger('change')
+                    $(document).trigger('changed')
                 })
         },
         getPrintStyles() {
@@ -458,7 +459,7 @@ export default {
                     this.printStyles = res.data.data
                 })
                 .finally(v => {
-                    $(document).trigger('change')
+                    $(document).trigger('changed')
                 })
         },
         getClotheTypes() {
@@ -467,8 +468,37 @@ export default {
                     this.clotheTypes = res.data.data
                 })
                 .finally(v => {
-                    $(document).trigger('change')
+                    $(document).trigger('changed')
                 })
+        },
+
+        addToCart(id, isSingle) {
+
+            let qty = isSingle ? 1 : $('.number-text' ).val();
+            let cart = localStorage.getItem('cart');
+            $('.number-text' ).val(1);
+
+            let newProduct = [
+                {
+                    'id': id,
+                    'qty': qty,
+                }
+            ];
+
+            if (!cart) {
+                localStorage.setItem('cart', JSON.stringify(newProduct));
+            } else {
+                cart = JSON.parse(cart)
+                cart.forEach(productInCart => {
+                    if (productInCart.id === id) {
+                        productInCart.qty = Number(productInCart.qty) + Number(qty)
+                        newProduct = null
+                    }
+                })
+                Array.prototype.push.apply(cart, newProduct)
+                localStorage.setItem('cart', JSON.stringify(cart));
+            }
+
         },
     }
 }

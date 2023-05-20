@@ -11,7 +11,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  *
  * @property int id
  * @property int product_id - ID товара
- * @property int fid - ID изображения
  * @property string filename - Название изображения
  * @property Carbon|null created_at - Дата создания
  * @property Carbon|null updated_at - Дата обновления
@@ -29,7 +28,6 @@ class Image extends Model
 
     protected $fillable = [
         'product_id',
-        'fid',
         'filename',
         'created_at',
         'updated_at',
@@ -37,11 +35,18 @@ class Image extends Model
 
     protected $casts = [
         'product_id' => 'integer',
-        'fid' => 'string',
         'filename' => 'string',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',
     ];
+
+    /**
+     * @return string
+     */
+    public function getImageUrlAttribute(): string
+    {
+        return url('storage/' . $this->filename);
+    }
 
     /**
      * @return belongsTo

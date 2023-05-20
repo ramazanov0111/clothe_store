@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Http\Controllers\Tag;
+namespace App\Http\Controllers\Image;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tag;
+use App\Models\Image;
 
 class IndexController extends Controller
 {
     public function __invoke()
     {
-        $tags = Tag::all();
+        $images = Image::all();
 
-        return view('tag.index', compact('tags'));
+        return view('image.index', compact('images'));
     }
 }

@@ -101,7 +101,7 @@
         <div class="header-cart flex-col-l p-l-65 p-r-25">
             <div class="header-cart-title flex-w flex-sb-m p-b-8">
 				<span class="mtext-103 cl2">
-					Your Cart
+					Ваша корзина
 				</span>
 
                 <div class="fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart">
@@ -166,15 +166,15 @@
                     </div>
 
                     <div class="header-cart-buttons flex-w w-full">
-                        <a href="shoping-cart.html"
-                           class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
-                            View Cart
-                        </a>
+                        <router-link to="cart"
+                                     class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
+                            Показать корзину
+                        </router-link>
 
-                        <a href="shoping-cart.html"
+                        <router-link to="cart"
                            class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
                             Check Out
-                        </a>
+                        </router-link>
                     </div>
                 </div>
             </div>
@@ -414,10 +414,61 @@
 export default {
     name: 'App',
     mounted() {
-        $(document).trigger('change')
-    }
+        $(document).trigger('changed')
+        this.getCartData()
+        this.getCartProducts()
+    },
+
+    data() {
+        return {
+            cartData: [],
+            cartProducts: [],
+        }
+    },
+
+    methods: {
+        getCartData() {
+            let cart = localStorage.getItem('cart');
+        },
+        getCartProducts() {
+            this.cartProducts = JSON.parse(localStorage.getItem('cart'))
+        },
+    },
 }
 
+$(document).ready(function() {
+    $('body').on('click', '.number-minus, .number-plus', function(){
+        var $row = $(this).closest('.number');
+        var $input = $row.find('.number-text');
+        var step = $row.data('step');
+        var val = parseFloat($input.val());
+        if ($(this).hasClass('number-minus')) {
+            val -= step;
+        } else {
+            val += step;
+        }
+        $input.val(val);
+        $input.change();
+        return false;
+    });
+
+    $('body').on('change', '.number-text', function(){
+        var $input = $(this);
+        var $row = $input.closest('.number');
+        var step = $row.data('step');
+        var min = parseInt($row.data('min'));
+        var max = parseInt($row.data('max'));
+        var val = parseFloat($input.val());
+        if (isNaN(val)) {
+            val = step;
+        } else if (min && val < min) {
+            val = min;
+        } else if (max && val > max) {
+            val = max;
+        }
+        $input.val(val);
+    });
+});
 </script>
 
 <style>

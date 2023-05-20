@@ -29,6 +29,16 @@ Route::group(['prefix' => 'proger'], function () {
         Route::delete('/{tag}', \App\Http\Controllers\Tag\DeleteController::class)->name('tag.delete');
     });
 
+    Route::group(['prefix' => 'images'], function () {
+        Route::get('/', \App\Http\Controllers\Image\IndexController::class)->name('image.index');
+        Route::get('/create', \App\Http\Controllers\Image\CreateController::class)->name('image.create');
+        Route::post('/', \App\Http\Controllers\Image\StoreController::class)->name('image.store');
+        Route::get('/{image}/edit', \App\Http\Controllers\Image\EditController::class)->name('image.edit');
+        Route::get('/{image}', \App\Http\Controllers\Image\ShowController::class)->name('image.show');
+        Route::patch('/{image}', \App\Http\Controllers\Image\UpdateController::class)->name('image.update');
+        Route::delete('/{image}', \App\Http\Controllers\Image\DeleteController::class)->name('image.delete');
+    });
+
     Route::group(['prefix' => 'users'], function () {
         Route::get('/', \App\Http\Controllers\User\IndexController::class)->name('user.index');
         Route::get('/create', \App\Http\Controllers\User\CreateController::class)->name('user.create');

@@ -36,13 +36,13 @@
 <script type="text/javascript" src="{{ asset('assets/vendor/bootstrap/js/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('assets/vendor/select2/select2.min.js') }}"></script>
 <script type="text/javascript">
-    // $(document).on('change', function () {
-    $(".js-select2").each(function () {
-        $(this).select2({
-            minimumResultsForSearch: 20,
-            dropdownParent: $(this).next('.dropDownSelect2')
+    // $(document).on('changed', function () {
+        $(".js-select2").each(function () {
+            $(this).select2({
+                minimumResultsForSearch: 20,
+                dropdownParent: $(this).next('.dropDownSelect2')
+            });
         });
-    })
     // });
 </script>
 <script type="text/javascript" src="{{ asset('assets/vendor/daterangepicker/moment.min.js') }}"></script>

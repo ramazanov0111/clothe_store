@@ -1,7 +1,7 @@
 (function ($) {
     "use strict";
 
-    $(document).on('change', function () {
+    $(document).on('changed', function () {
 
         /*[ Load page ]
         ===========================================================*/
@@ -171,7 +171,6 @@
         /*==================================================================
         [ Filter / Search product ]*/
         $('.js-show-filter').on('click', function () {
-            console.log(1)
             $(this).toggleClass('show-filter');
             $('.panel-filter').slideToggle(400);
 

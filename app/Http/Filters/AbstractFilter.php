@@ -41,28 +41,28 @@ abstract class AbstractFilter implements FilterInterface
     {
     }
 
-    /**
-     * @param string $key
-     * @param mixed|null $default
-     *
-     * @return mixed|null
-     */
-    protected function getQueryParam(string $key, $default = null)
-    {
-        return $this->queryParams[$key] ?? $default;
-    }
-
-    /**
-     * @param string[] $keys
-     *
-     * @return AbstractFilter
-     */
-    protected function removeQueryParam(string ...$keys)
-    {
-        foreach ($keys as $key) {
-            unset($this->queryParams[$key]);
-        }
-
-        return $this;
-    }
+//    /**
+//     * @param string $key
+//     * @param mixed|null $default
+//     *
+//     * @return mixed|null
+//     */
+//    protected function getQueryParam(string $key, $default = null)
+//    {
+//        return $this->queryParams[$key] ?? $default;
+//    }
+//
+//    /**
+//     * @param string[] $keys
+//     *
+//     * @return AbstractFilter
+//     */
+//    protected function removeQueryParam(string ...$keys)
+//    {
+//        foreach ($keys as $key) {
+//            unset($this->queryParams[$key]);
+//        }
+//
+//        return $this;
+//    }
 }

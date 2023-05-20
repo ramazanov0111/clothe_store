@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Tag;
+namespace App\Http\Controllers\Image;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tag;
+use App\Models\Image;
 
 class EditController extends Controller
 {
-    public function __invoke(Tag $tag)
+    public function __invoke(Image $image)
     {
-        return view('tag.edit', compact('tag'));
+        return view('image.edit', compact('image'));
     }
 }

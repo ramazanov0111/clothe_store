@@ -1,16 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\Tag;
+namespace App\Http\Controllers\Image;
 
 use App\Http\Controllers\Controller;
-use App\Models\Tag;
+use App\Models\Image;
+use App\Models\Product;
 
 class DeleteController extends Controller
 {
-    public function __invoke(Tag $tag)
+    public function __invoke(Image $image)
     {
-        $tag->delete();
+        $product = Product::query()->where('id', $image->product_id)->get()->first();
+        $image->delete();
 
-        return redirect()->route('tag.index');
+        return redirect()->route('product.edit', $product->id);
     }
 }

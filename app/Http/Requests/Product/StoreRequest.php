@@ -34,6 +34,7 @@ class  StoreRequest extends FormRequest
             'description' => 'nullable|string',
             'is_published' => 'nullable|integer',
             'tags' => 'nullable|array',
+            'gallery' => 'nullable|array',
         ];
     }
 }

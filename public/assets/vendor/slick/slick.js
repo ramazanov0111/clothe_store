@@ -354,7 +354,7 @@
 
         if ( asNavFor !== null && typeof asNavFor === 'object' ) {
             asNavFor.each(function() {
-                var target = $(this).slick('getSlick');
+                var target = $(this).not('.slick-initialized').slick('getSlick');
                 if(!target.unslicked) {
                     target.slideHandler(index, true);
                 }
@@ -1697,7 +1697,7 @@
 
             if (_.options.accessibility === true) {
                 _.initADA();
-                
+
                 if (_.options.focusOnChange) {
                     var $currentSlide = $(_.$slides.get(_.currentSlide));
                     $currentSlide.attr('tabindex', 0).focus();
@@ -2545,7 +2545,7 @@
         if ( _.options.asNavFor ) {
 
             navTarget = _.getNavTarget();
-            navTarget = navTarget.slick('getSlick');
+            navTarget = navTarget.not('.slick-initialized').slick('getSlick');
 
             if ( navTarget.slideCount <= navTarget.options.slidesToShow ) {
                 navTarget.setSlideClasses(_.currentSlide);

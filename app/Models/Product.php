@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Traits\Filterable;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -35,6 +36,8 @@ use Illuminate\Support\Str;
  */
 class Product extends Model
 {
+    use Filterable;
+
     public const TABLE = 'products';
 
     /** @var string */
@@ -309,7 +312,7 @@ class Product extends Model
      */
     public function gallery(): HasMany
     {
-        return $this->hasMany(Image::class, 'product_id');
+        return $this->hasMany(Image::class, 'product_id', 'id');
     }
 
     /**
@@ -333,6 +336,6 @@ class Product extends Model
      */
     public function reviews(): HasMany
     {
-        return $this->hasMany(Review::class, 'product_id');
+        return $this->hasMany(Review::class, 'product_id', 'id');
     }
 }

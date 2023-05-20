@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Product\UpdateRequest;
+use App\Models\Image;
 use App\Models\Product;
 use App\Models\ProductTag;
 use Illuminate\Support\Facades\Storage;
@@ -19,7 +20,8 @@ class UpdateController extends Controller
             $data['preview_image'] = Storage::disk('public')->put('/images', $data['preview_image']);
         }
         $tagsIds = $data['tags'] ?? [];
-        unset($data['tags']);
+        $gallery = $data['gallery'] ?? [];
+        unset($data['tags'], $data['gallery']);
 
         $product->update($data);
 
@@ -44,6 +46,19 @@ class UpdateController extends Controller
                     'tag_id' => $tagId,
                 ]);
             }
+        }
+
+        foreach ($gallery as $item) {
+            $currentImagesCount = Image::query()->where('product_id', $product->id)->get()->count();
+
+            if ($currentImagesCount >= 3) {
+                continue;
+            }
+            $imgPath = Storage::disk('public')->put('/images', $item);
+            Image::query()->create([
+                'product_id' => $product->id,
+                'filename' => $imgPath,
+            ]);
         }
 
         return view('product.show', compact('product'));

@@ -35,6 +35,7 @@ class ProductResource extends JsonResource
             'clothe_type' => $clotheType,
             'count' => $this->count,
             'description' => $this->description,
+            'gallery' => ProductGalleryResource::collection($this->gallery),
         ];
     }
 }

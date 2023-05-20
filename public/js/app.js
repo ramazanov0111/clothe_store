@@ -19738,8 +19738,56 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'App',
   mounted: function mounted() {
-    $(document).trigger('change');
+    $(document).trigger('changed');
+    this.getCartData();
+    this.getCartProducts();
+  },
+  data: function data() {
+    return {
+      cartData: [],
+      cartProducts: []
+    };
+  },
+  methods: {
+    getCartData: function getCartData() {
+      var cart = localStorage.getItem('cart');
+    },
+    getCartProducts: function getCartProducts() {
+      this.cartProducts = JSON.parse(localStorage.getItem('cart'));
+    }
   }
+});
+$(document).ready(function () {
+  $('body').on('click', '.number-minus, .number-plus', function () {
+    var $row = $(this).closest('.number');
+    var $input = $row.find('.number-text');
+    var step = $row.data('step');
+    var val = parseFloat($input.val());
+    if ($(this).hasClass('number-minus')) {
+      val -= step;
+    } else {
+      val += step;
+    }
+    $input.val(val);
+    $input.change();
+    return false;
+  });
+  $('body').on('change', '.number-text', function () {
+    var $input = $(this);
+    var $row = $input.closest('.number');
+    var step = $row.data('step');
+    var min = parseInt($row.data('min'));
+    var max = parseInt($row.data('max'));
+    var val = parseFloat($input.val());
+    if (isNaN(val)) {
+      val = step;
+    } else if (min && val < min) {
+      val = min;
+    } else if (max && val > max) {
+      val = max;
+    }
+    $input.val(val);
+  });
 });
 
 /***/ }),
@@ -19827,17 +19875,49 @@ var _hoisted_17 = {
 var _hoisted_18 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Главная");
 var _hoisted_19 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)("Каталог");
 var _hoisted_20 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"modal-search-header flex-c-m trans-04 js-hide-modal-search\"><button class=\"flex-c-m btn-hide-modal-search trans-04\"><i class=\"zmdi zmdi-close\"></i></button><form class=\"container-search-header\"><div class=\"wrap-search-header\"><input class=\"plh0\" type=\"text\" name=\"search\" placeholder=\"Search...\"><button class=\"flex-c-m trans-04\"><i class=\"zmdi zmdi-search\"></i></button></div></form></div>", 1);
-var _hoisted_21 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<div class=\"wrap-header-cart js-panel-cart\"><div class=\"s-full js-hide-cart\"></div><div class=\"header-cart flex-col-l p-l-65 p-r-25\"><div class=\"header-cart-title flex-w flex-sb-m p-b-8\"><span class=\"mtext-103 cl2\"> Your Cart </span><div class=\"fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart\"><i class=\"zmdi zmdi-close\"></i></div></div><div class=\"header-cart-content flex-w js-pscroll\"><ul class=\"header-cart-wrapitem w-full\"><li class=\"header-cart-item flex-w flex-t m-b-12\"><div class=\"header-cart-item-img\"><img src=\"/assets/images/item-cart-01.jpg\" alt=\"IMG\"></div><div class=\"header-cart-item-txt p-t-8\"><a href=\"#\" class=\"header-cart-item-name m-b-18 hov-cl1 trans-04\"> White Shirt Pleat </a><span class=\"header-cart-item-info\"> 1 x $19.00 </span></div></li><li class=\"header-cart-item flex-w flex-t m-b-12\"><div class=\"header-cart-item-img\"><img src=\"/assets/images/item-cart-02.jpg\" alt=\"IMG\"></div><div class=\"header-cart-item-txt p-t-8\"><a href=\"#\" class=\"header-cart-item-name m-b-18 hov-cl1 trans-04\"> Converse All Star </a><span class=\"header-cart-item-info\"> 1 x $39.00 </span></div></li><li class=\"header-cart-item flex-w flex-t m-b-12\"><div class=\"header-cart-item-img\"><img src=\"/assets/images/item-cart-03.jpg\" alt=\"IMG\"></div><div class=\"header-cart-item-txt p-t-8\"><a href=\"#\" class=\"header-cart-item-name m-b-18 hov-cl1 trans-04\"> Nixon Porter Leather </a><span class=\"header-cart-item-info\"> 1 x $17.00 </span></div></li></ul><div class=\"w-full\"><div class=\"header-cart-total w-full p-tb-40\"> Total: $75.00 </div><div class=\"header-cart-buttons flex-w w-full\"><a href=\"shoping-cart.html\" class=\"flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10\"> View Cart </a><a href=\"shoping-cart.html\" class=\"flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10\"> Check Out </a></div></div></div></div></div>", 1);
-var _hoisted_22 = {
+var _hoisted_21 = {
+  "class": "wrap-header-cart js-panel-cart"
+};
+var _hoisted_22 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "s-full js-hide-cart"
+}, null, -1 /* HOISTED */);
+var _hoisted_23 = {
+  "class": "header-cart flex-col-l p-l-65 p-r-25"
+};
+var _hoisted_24 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "header-cart-title flex-w flex-sb-m p-b-8"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
+  "class": "mtext-103 cl2"
+}, " Ваша корзина "), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "fs-35 lh-10 cl2 p-lr-5 pointer hov-cl1 trans-04 js-hide-cart"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "zmdi zmdi-close"
+})])], -1 /* HOISTED */);
+var _hoisted_25 = {
+  "class": "header-cart-content flex-w js-pscroll"
+};
+var _hoisted_26 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<ul class=\"header-cart-wrapitem w-full\"><li class=\"header-cart-item flex-w flex-t m-b-12\"><div class=\"header-cart-item-img\"><img src=\"/assets/images/item-cart-01.jpg\" alt=\"IMG\"></div><div class=\"header-cart-item-txt p-t-8\"><a href=\"#\" class=\"header-cart-item-name m-b-18 hov-cl1 trans-04\"> White Shirt Pleat </a><span class=\"header-cart-item-info\"> 1 x $19.00 </span></div></li><li class=\"header-cart-item flex-w flex-t m-b-12\"><div class=\"header-cart-item-img\"><img src=\"/assets/images/item-cart-02.jpg\" alt=\"IMG\"></div><div class=\"header-cart-item-txt p-t-8\"><a href=\"#\" class=\"header-cart-item-name m-b-18 hov-cl1 trans-04\"> Converse All Star </a><span class=\"header-cart-item-info\"> 1 x $39.00 </span></div></li><li class=\"header-cart-item flex-w flex-t m-b-12\"><div class=\"header-cart-item-img\"><img src=\"/assets/images/item-cart-03.jpg\" alt=\"IMG\"></div><div class=\"header-cart-item-txt p-t-8\"><a href=\"#\" class=\"header-cart-item-name m-b-18 hov-cl1 trans-04\"> Nixon Porter Leather </a><span class=\"header-cart-item-info\"> 1 x $17.00 </span></div></li></ul>", 1);
+var _hoisted_27 = {
+  "class": "w-full"
+};
+var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+  "class": "header-cart-total w-full p-tb-40"
+}, " Total: $75.00 ", -1 /* HOISTED */);
+var _hoisted_29 = {
+  "class": "header-cart-buttons flex-w w-full"
+};
+var _hoisted_30 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Показать корзину ");
+var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createTextVNode)(" Check Out ");
+var _hoisted_32 = {
   "class": "section-slide"
 };
-var _hoisted_23 = {
+var _hoisted_33 = {
   "class": "wrap-slick1 rs2-slick1"
 };
-var _hoisted_24 = {
+var _hoisted_34 = {
   "class": "slick1"
 };
-var _hoisted_25 = {
+var _hoisted_35 = {
   "class": "item-slick1 bg-overlay1",
   style: {
     "background-image": "url(/assets/images/slide-06.jpg)"
@@ -19845,35 +19925,35 @@ var _hoisted_25 = {
   "data-thumb": "/assets/images/thumb-02.jpg",
   "data-caption": "Non-Player"
 };
-var _hoisted_26 = {
+var _hoisted_36 = {
   "class": "container h-full"
 };
-var _hoisted_27 = {
+var _hoisted_37 = {
   "class": "flex-col-c-m h-full p-t-100 p-b-60 respon5"
 };
-var _hoisted_28 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "layer-slick1 animated visible-false",
   "data-appear": "rollIn",
   "data-delay": "0"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "ltext-202 txt-center cl0 respon2"
 }, " Men New-Season ")], -1 /* HOISTED */);
-var _hoisted_29 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "layer-slick1 animated visible-false",
   "data-appear": "lightSpeedIn",
   "data-delay": "800"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
   "class": "ltext-104 txt-center cl0 p-t-22 p-b-40 respon1"
 }, " Jackets & Coats ")], -1 /* HOISTED */);
-var _hoisted_30 = {
+var _hoisted_40 = {
   "class": "layer-slick1 animated visible-false",
   "data-appear": "slideInUp",
   "data-delay": "1600"
 };
-var _hoisted_31 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
   "class": "flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04"
 }, " Показать ", -1 /* HOISTED */);
-var _hoisted_32 = {
+var _hoisted_42 = {
   "class": "item-slick1 bg-overlay1",
   style: {
     "background-image": "url(/assets/images/slide-07.jpg)"
@@ -19881,39 +19961,39 @@ var _hoisted_32 = {
   "data-thumb": "/assets/images/thumb-03.jpg",
   "data-caption": "Player"
 };
-var _hoisted_33 = {
+var _hoisted_43 = {
   "class": "container h-full"
 };
-var _hoisted_34 = {
+var _hoisted_44 = {
   "class": "flex-col-c-m h-full p-t-100 p-b-60 respon5"
 };
-var _hoisted_35 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_45 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "layer-slick1 animated visible-false",
   "data-appear": "rotateInDownLeft",
   "data-delay": "0"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
   "class": "ltext-202 txt-center cl0 respon2"
 }, " Men Collection 2018 ")], -1 /* HOISTED */);
-var _hoisted_36 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_46 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "layer-slick1 animated visible-false",
   "data-appear": "rotateInUpRight",
   "data-delay": "800"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h2", {
   "class": "ltext-104 txt-center cl0 p-t-22 p-b-40 respon1"
 }, " NEW SEASON ")], -1 /* HOISTED */);
-var _hoisted_37 = {
+var _hoisted_47 = {
   "class": "layer-slick1 animated visible-false",
   "data-appear": "rotateIn",
   "data-delay": "1600"
 };
-var _hoisted_38 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
+var _hoisted_48 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("h3", {
   "class": "flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn2 p-lr-15 trans-04"
 }, " Показать ", -1 /* HOISTED */);
-var _hoisted_39 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_49 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "wrap-slick1-dots p-lr-10"
 }, null, -1 /* HOISTED */);
-var _hoisted_40 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<footer class=\"bg3 p-t-75 p-b-32\"><div class=\"container\"><div class=\"row\"><div class=\"col-sm-6 col-lg-3 p-b-50\"><h4 class=\"stext-301 cl0 p-b-30\"> Categories </h4><ul><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Women </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Men </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Shoes </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Watches </a></li></ul></div><div class=\"col-sm-6 col-lg-3 p-b-50\"><h4 class=\"stext-301 cl0 p-b-30\"> Help </h4><ul><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Track Order </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Returns </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Shipping </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> FAQs </a></li></ul></div><div class=\"col-sm-6 col-lg-3 p-b-50\"><h4 class=\"stext-301 cl0 p-b-30\"> GET IN TOUCH </h4><p class=\"stext-107 cl7 size-201\"> Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879 </p><div class=\"p-t-27\"><a href=\"#\" class=\"fs-18 cl7 hov-cl1 trans-04 m-r-16\"><i class=\"fa fa-facebook\"></i></a><a href=\"#\" class=\"fs-18 cl7 hov-cl1 trans-04 m-r-16\"><i class=\"fa fa-instagram\"></i></a><a href=\"#\" class=\"fs-18 cl7 hov-cl1 trans-04 m-r-16\"><i class=\"fa fa-pinterest-p\"></i></a></div></div><div class=\"col-sm-6 col-lg-3 p-b-50\"><h4 class=\"stext-301 cl0 p-b-30\"> Newsletter </h4><form><div class=\"wrap-input1 w-full p-b-4\"><input class=\"input1 bg-none plh1 stext-107 cl7\" type=\"text\" name=\"email\" placeholder=\"email@example.com\"><div class=\"focus-input1 trans-04\"></div></div><div class=\"p-t-18\"><button class=\"flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04\"> Subscribe </button></div></form></div></div><div class=\"p-t-40\"><div class=\"flex-c-m flex-w p-b-18\"><a href=\"#\" class=\"m-all-1\"><img src=\"/assets/images/icons/icon-pay-01.png\" alt=\"ICON-PAY\"></a><a href=\"#\" class=\"m-all-1\"><img src=\"/assets/images/icons/icon-pay-02.png\" alt=\"ICON-PAY\"></a><a href=\"#\" class=\"m-all-1\"><img src=\"/assets/images/icons/icon-pay-03.png\" alt=\"ICON-PAY\"></a><a href=\"#\" class=\"m-all-1\"><img src=\"/assets/images/icons/icon-pay-04.png\" alt=\"ICON-PAY\"></a><a href=\"#\" class=\"m-all-1\"><img src=\"/assets/images/icons/icon-pay-05.png\" alt=\"ICON-PAY\"></a></div><!--          &lt;p class=&quot;stext-107 cl6 txt-center&quot;&gt;--><!--            &amp;lt;!&amp;ndash; Link back to Colorlib can&#39;t be removed. Template is licensed under CC BY 3.0. &amp;ndash;&amp;gt;--><!--            Copyright &amp;copy;&lt;script&gt;document.write(new Date().getFullYear().toString());&lt;/script&gt; All rights reserved | This template is made with &lt;i class=&quot;fa fa-heart-o&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; by &lt;a href=&quot;https://colorlib.com&quot; target=&quot;_blank&quot;&gt;Colorlib&lt;/a&gt;--><!--            &amp;lt;!&amp;ndash; Link back to Colorlib can&#39;t be removed. Template is licensed under CC BY 3.0. &amp;ndash;&amp;gt;--><!--          &lt;/p&gt;--></div></div></footer>", 1);
-var _hoisted_41 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_50 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<footer class=\"bg3 p-t-75 p-b-32\"><div class=\"container\"><div class=\"row\"><div class=\"col-sm-6 col-lg-3 p-b-50\"><h4 class=\"stext-301 cl0 p-b-30\"> Categories </h4><ul><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Women </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Men </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Shoes </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Watches </a></li></ul></div><div class=\"col-sm-6 col-lg-3 p-b-50\"><h4 class=\"stext-301 cl0 p-b-30\"> Help </h4><ul><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Track Order </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Returns </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> Shipping </a></li><li class=\"p-b-10\"><a href=\"#\" class=\"stext-107 cl7 hov-cl1 trans-04\"> FAQs </a></li></ul></div><div class=\"col-sm-6 col-lg-3 p-b-50\"><h4 class=\"stext-301 cl0 p-b-30\"> GET IN TOUCH </h4><p class=\"stext-107 cl7 size-201\"> Any questions? Let us know in store at 8th floor, 379 Hudson St, New York, NY 10018 or call us on (+1) 96 716 6879 </p><div class=\"p-t-27\"><a href=\"#\" class=\"fs-18 cl7 hov-cl1 trans-04 m-r-16\"><i class=\"fa fa-facebook\"></i></a><a href=\"#\" class=\"fs-18 cl7 hov-cl1 trans-04 m-r-16\"><i class=\"fa fa-instagram\"></i></a><a href=\"#\" class=\"fs-18 cl7 hov-cl1 trans-04 m-r-16\"><i class=\"fa fa-pinterest-p\"></i></a></div></div><div class=\"col-sm-6 col-lg-3 p-b-50\"><h4 class=\"stext-301 cl0 p-b-30\"> Newsletter </h4><form><div class=\"wrap-input1 w-full p-b-4\"><input class=\"input1 bg-none plh1 stext-107 cl7\" type=\"text\" name=\"email\" placeholder=\"email@example.com\"><div class=\"focus-input1 trans-04\"></div></div><div class=\"p-t-18\"><button class=\"flex-c-m stext-101 cl0 size-103 bg1 bor1 hov-btn2 p-lr-15 trans-04\"> Subscribe </button></div></form></div></div><div class=\"p-t-40\"><div class=\"flex-c-m flex-w p-b-18\"><a href=\"#\" class=\"m-all-1\"><img src=\"/assets/images/icons/icon-pay-01.png\" alt=\"ICON-PAY\"></a><a href=\"#\" class=\"m-all-1\"><img src=\"/assets/images/icons/icon-pay-02.png\" alt=\"ICON-PAY\"></a><a href=\"#\" class=\"m-all-1\"><img src=\"/assets/images/icons/icon-pay-03.png\" alt=\"ICON-PAY\"></a><a href=\"#\" class=\"m-all-1\"><img src=\"/assets/images/icons/icon-pay-04.png\" alt=\"ICON-PAY\"></a><a href=\"#\" class=\"m-all-1\"><img src=\"/assets/images/icons/icon-pay-05.png\" alt=\"ICON-PAY\"></a></div><!--          &lt;p class=&quot;stext-107 cl6 txt-center&quot;&gt;--><!--            &amp;lt;!&amp;ndash; Link back to Colorlib can&#39;t be removed. Template is licensed under CC BY 3.0. &amp;ndash;&amp;gt;--><!--            Copyright &amp;copy;&lt;script&gt;document.write(new Date().getFullYear().toString());&lt;/script&gt; All rights reserved | This template is made with &lt;i class=&quot;fa fa-heart-o&quot; aria-hidden=&quot;true&quot;&gt;&lt;/i&gt; by &lt;a href=&quot;https://colorlib.com&quot; target=&quot;_blank&quot;&gt;Colorlib&lt;/a&gt;--><!--            &amp;lt;!&amp;ndash; Link back to Colorlib can&#39;t be removed. Template is licensed under CC BY 3.0. &amp;ndash;&amp;gt;--><!--          &lt;/p&gt;--></div></div></footer>", 1);
+var _hoisted_51 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
   "class": "btn-back-to-top",
   id: "myBtn"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("span", {
@@ -19968,22 +20048,38 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
       return [_hoisted_19];
     }),
     _: 1 /* STABLE */
-  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal Search "), _hoisted_20]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Корзина "), _hoisted_21, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Слайдер категорий "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_22, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_24, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_26, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_hoisted_28, _hoisted_29, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_30, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
-    to: "/"
+  })])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Modal Search "), _hoisted_20]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Корзина "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_21, [_hoisted_22, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_23, [_hoisted_24, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_25, [_hoisted_26, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_27, [_hoisted_28, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_29, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "cart",
+    "class": "flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_30];
+    }),
+    _: 1 /* STABLE */
+  }), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "cart",
+    "class": "flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
       return [_hoisted_31];
     }),
     _: 1 /* STABLE */
-  })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [_hoisted_35, _hoisted_36, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+  })])])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Слайдер категорий "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("section", _hoisted_32, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_33, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_34, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_35, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_36, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_37, [_hoisted_38, _hoisted_39, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_40, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
+    to: "/"
+  }, {
+    "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
+      return [_hoisted_41];
+    }),
+    _: 1 /* STABLE */
+  })])])])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_42, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_43, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_44, [_hoisted_45, _hoisted_46, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_47, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_link, {
     to: "/player",
     "class": "white"
   }, {
     "default": (0,vue__WEBPACK_IMPORTED_MODULE_0__.withCtx)(function () {
-      return [_hoisted_38];
+      return [_hoisted_48];
     }),
     _: 1 /* STABLE */
-  })])])])])]), _hoisted_39])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Контент "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_view), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Footer "), _hoisted_40, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Стрелка наверх "), _hoisted_41, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("  </div>")], 64 /* STABLE_FRAGMENT */);
+  })])])])])]), _hoisted_49])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Контент "), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createVNode)(_component_router_view), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Footer "), _hoisted_50, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)(" Стрелка наверх "), _hoisted_51, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createCommentVNode)("  </div>")], 64 /* STABLE_FRAGMENT */);
 }
 
 /***/ }),
@@ -20082,6 +20178,18 @@ var router = (0,vue_router__WEBPACK_IMPORTED_MODULE_0__.createRouter)({
     name: 'catalog',
     component: function component() {
       return __webpack_require__.e(/*! import() */ "resources_js_views_product_Index_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/product/Index.vue */ "./resources/js/views/product/Index.vue"));
+    }
+  }, {
+    path: '/catalog/:slug',
+    name: 'product.show',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_product_Show_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/product/Show.vue */ "./resources/js/views/product/Show.vue"));
+    }
+  }, {
+    path: '/cart',
+    name: 'cart',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_views_Cart_vue").then(__webpack_require__.bind(__webpack_require__, /*! ../views/Cart.vue */ "./resources/js/views/Cart.vue"));
     }
   }]
 });
@@ -41579,7 +41687,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_views_main_Index_vue":1,"resources_js_views_main_PlayerIndex_vue":1,"resources_js_views_product_Index_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_views_main_Index_vue":1,"resources_js_views_main_PlayerIndex_vue":1,"resources_js_views_product_Index_vue":1,"resources_js_views_product_Show_vue":1,"resources_js_views_Cart_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
