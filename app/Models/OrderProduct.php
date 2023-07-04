@@ -16,10 +16,10 @@ use Illuminate\Database\Eloquent\Model;
  * @property int product_id - id товара
  * @property int count - Количество
  * @property float sum - Сумма по товару
- * @property int color - Цвет
+ * @property string color - Цвет
  * @property int size - Размер
- * @property int print_style - Стиль принта
- * @property int image_id - id сгенерированного изображения
+ * @property int|null print_style - Стиль принта
+ * @property int|null image_id - id сгенерированного изображения
  *
  */
 class OrderProduct extends Model
@@ -53,7 +53,7 @@ class OrderProduct extends Model
         'product_id' => 'integer',
         'count' => 'integer',
         'sum' => 'float',
-        'color' => 'integer',
+        'color' => 'string',
         'size' => 'integer',
         'print_style' => 'integer',
         'image_id' => 'integer',

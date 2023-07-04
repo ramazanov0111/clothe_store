@@ -3,79 +3,79 @@
     <section class="bg0 p-t-23 p-b-130">
         <div class="container">
             <div class="p-b-10">
-                <h3 class="ltext-103 cl5 m-tb-10">
-                    Product Overview
+                <h3 class="ltext-103 cl5 m-tb-25">
+                    Каталог товаров
                 </h3>
             </div>
 
-            <div class="flex-w flex-sb-m p-b-52">
-                <!-- Search product -->
-                <div class="dis-none panel-search w-full p-t-10 p-b-15">
-                    <div class="bor8 dis-flex p-l-15">
-                        <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
-                            <i class="zmdi zmdi-search"></i>
-                        </button>
+<!--            <div class="flex-w flex-sb-m p-b-52">-->
+<!--                &lt;!&ndash; Search product &ndash;&gt;-->
+<!--                <div class="dis-none panel-search w-full p-t-10 p-b-15">-->
+<!--                    <div class="bor8 dis-flex p-l-15">-->
+<!--                        <button class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">-->
+<!--                            <i class="zmdi zmdi-search"></i>-->
+<!--                        </button>-->
 
-                        <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product"
-                               placeholder="Search">
-                    </div>
-                </div>
+<!--                        <input class="mtext-107 cl2 size-114 plh2 p-r-15" type="text" name="search-product"-->
+<!--                               placeholder="Search">-->
+<!--                    </div>-->
+<!--                </div>-->
 
-                <!-- Filter -->
-                <div class="show-filter panel-filter w-full p-t-10">
-                    <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
-                        <div class="filter-col1 p-r-15 p-b-27">
-                            <div class="mtext-102 cl2 p-b-15">
-                                Сортировать по
-                            </div>
+<!--                &lt;!&ndash; Filter &ndash;&gt;-->
+<!--                <div class="show-filter panel-filter w-full p-t-10">-->
+<!--                    <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">-->
+<!--                        <div class="filter-col1 p-r-15 p-b-27">-->
+<!--                            <div class="mtext-102 cl2 p-b-15">-->
+<!--                                Сортировать по-->
+<!--                            </div>-->
 
-                            <ul>
-                                <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        По умолчанию
-                                    </a>
-                                </li>
+<!--                            <ul>-->
+<!--                                <li class="p-b-6">-->
+<!--                                    <a href="#" class="filter-link stext-106 trans-04">-->
+<!--                                        По умолчанию-->
+<!--                                    </a>-->
+<!--                                </li>-->
 
-                                <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Цена: по возрастанию
-                                    </a>
-                                </li>
+<!--                                <li class="p-b-6">-->
+<!--                                    <a href="#" class="filter-link stext-106 trans-04">-->
+<!--                                        Цена: по возрастанию-->
+<!--                                    </a>-->
+<!--                                </li>-->
 
-                                <li class="p-b-6">
-                                    <a href="#" class="filter-link stext-106 trans-04">
-                                        Цена: по убыванию
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+<!--                                <li class="p-b-6">-->
+<!--                                    <a href="#" class="filter-link stext-106 trans-04">-->
+<!--                                        Цена: по убыванию-->
+<!--                                    </a>-->
+<!--                                </li>-->
+<!--                            </ul>-->
+<!--                        </div>-->
 
-                        <div class="filter-col2 p-r-15 p-b-27">
-                            <div class="mtext-102 cl2 p-b-15">
-                                Цена
-                            </div>
-                            <input type="number">
-                            <input type="number">
+<!--                        <div class="filter-col2 p-r-15 p-b-27">-->
+<!--                            <div class="mtext-102 cl2 p-b-15">-->
+<!--                                Цена-->
+<!--                            </div>-->
+<!--                            <input type="number">-->
+<!--                            <input type="number">-->
 
-                        </div>
+<!--                        </div>-->
 
-                        <div class="filter-col4 p-b-27">
-                            <div class="mtext-102 cl2 p-b-15">
-                                Теги
-                            </div>
+<!--                        <div class="filter-col4 p-b-27">-->
+<!--                            <div class="mtext-102 cl2 p-b-15">-->
+<!--                                Теги-->
+<!--                            </div>-->
 
-                            <div class="flex-w p-t-4 m-r--5">
-                                <a v-for="tag in filterList.tags" href="#"
-                                   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
-                                    {{ tag.title }}
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<!--                            <div class="flex-w p-t-4 m-r&#45;&#45;5">-->
+<!--                                <a v-for="tag in filterList.tags" href="#"-->
+<!--                                   class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">-->
+<!--                                    {{ tag.title }}-->
+<!--                                </a>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--            </div>-->
 
-            <div class="row isotope-grid" style="height: auto">
+            <div class="row isotope-grid" style="height: auto; margin-top: 10px;">
 
                 <div v-for="product in products"
                      class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item men d-flex align-items-stretch">
@@ -112,7 +112,7 @@
                                          alt="ICON">
                                 </a>
                                 <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2"
-                                   @click.prevent="addToCart(product.id, true)">
+                                   @click.prevent="addToCart(product, true)">
                                     <img class="icon-heart1 dis-block trans-04"
                                          src="/assets/images/icons/icon-shopping-cart-1.png"
                                          alt="ICON">
@@ -193,8 +193,8 @@
 
                                                         <div class="size-204 respon6-next">
                                                             <div class="rs1-select2 bor8 bg0">
-                                                                <select class="js-select2" name="time">
-                                                                    <option>Выберите размер</option>
+                                                                <select v-model="curSize" class="js-select2" name="size">
+                                                                    <option disabled value="">Выберите размер</option>
                                                                     <option v-for="size in sizes" :value="size.code">
                                                                         {{ size.name }}
                                                                     </option>
@@ -211,8 +211,8 @@
 
                                                         <div class="size-204 respon6-next">
                                                             <div class="rs1-select2 bor8 bg0">
-                                                                <select class="js-select2" name="time">
-                                                                    <option>Выберите цвет</option>
+                                                                <select v-model="curColor" class="js-select2" name="color">
+                                                                    <option disabled value="">Выберите цвет</option>
                                                                     <option v-for="color in colors" :value="color.code">
                                                                         {{ color.name }}
                                                                     </option>
@@ -245,7 +245,7 @@
 
                                                             </div>
 
-                                                            <button @click.prevent="addToCart(currentProduct.id, false)"
+                                                            <button @click.prevent="addToCart(currentProduct, false)"
                                                                     class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
                                                                 В корзину
                                                             </button>
@@ -313,9 +313,9 @@
 export default {
     name: "Index",
     mounted() {
-        $(document).trigger('changed')
+        // $(document).trigger('changed')
         this.getProducts()
-        this.getFilterList()
+        // this.getFilterList()
         this.getColors()
         this.getSizes()
     },
@@ -328,11 +328,13 @@ export default {
             currentProduct: [],
             filterList: [],
             num: null,
+            curSize: '',
+            curColor: '',
         }
     },
 
     methods: {
-        addToCart(id, isSingle) {
+        addToCart(product, isSingle) {
 
             let qty = isSingle ? 1 : $('.number-text' ).val();
             let cart = localStorage.getItem('cart');
@@ -340,8 +342,14 @@ export default {
 
             let newProduct = [
                 {
-                    'id': id,
+                    'id': product.id,
+                    'slug': product.slug,
                     'qty': qty,
+                    'title': product.title,
+                    'price': product.price,
+                    'image': product.imageUrl,
+                    'color': this.curColor,
+                    'size': this.curSize,
                 }
             ];
 
@@ -350,7 +358,7 @@ export default {
             } else {
                 cart = JSON.parse(cart)
                 cart.forEach(productInCart => {
-                    if (productInCart.id === id) {
+                    if (productInCart.id === product.id) {
                         productInCart.qty = Number(productInCart.qty) + Number(qty)
                         newProduct = null
                     }
@@ -358,7 +366,6 @@ export default {
                 Array.prototype.push.apply(cart, newProduct)
                 localStorage.setItem('cart', JSON.stringify(cart));
             }
-
         },
 
         getProducts() {
@@ -396,16 +403,7 @@ export default {
                 .finally(v => {
                     $(document).trigger('changed')
                 })
-        },
-        getFilterList() {
-            this.axios.get('/api/products/filters')
-                .then(res => {
-                    this.filterList = res.data
-                })
-                .finally(v => {
-                    $(document).trigger('changed')
-                })
-        },
+        }
     },
 }
 </script>

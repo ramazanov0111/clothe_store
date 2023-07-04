@@ -21,7 +21,7 @@
                                     <div v-for="clotheType in clotheTypes" class="rs1-select2 bg0" id="radioset">
                                         <input type="radio" :id="clotheType.name" :value="clotheType.code" name="radio"
                                                @click="getPlayerProduct(clotheType.code)">
-<!--                                               v-model="curClotheType">-->
+                                        <!--                                               v-model="curClotheType">-->
                                         <label :for="clotheType.name">{{ clotheType.name }}</label>
                                     </div>
                                 </div>
@@ -96,7 +96,7 @@
 
                                     </div>
 
-                                    <button @click.prevent="addToCart(product.id, false)"
+                                    <button @click.prevent="addToCart(product, false)"
                                             class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
                                         В корзину
                                     </button>
@@ -104,30 +104,35 @@
                             </div>
                         </div>
 
-                        <!--  -->
-                        <div class="flex-w flex-m p-l-100 p-t-40 respon7">
-                            <div class="flex-m bor9 p-r-10 m-r-11">
-                                <a href="#"
-                                   class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 js-addwish-detail tooltip100"
-                                   data-tooltip="Add to Wishlist">
-                                    <i class="zmdi zmdi-favorite"></i>
-                                </a>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="file">Выберите файл</label>
+                                <div class="input-group" style="border: 1px solid #182238;">
+<!--                                    <i class="fa fa-file" aria-hidden="true"></i>-->
+                                    <i class="fa fa-regular fa-image" aria-hidden="true"></i>
+                                    <input type="file" class="custom-file-input" id="file" name="file" @change="handleFileSelect()">
+                                </div>
+                                <div class="row">
+                                    <span id="output"></span>
+                                </div>
                             </div>
 
-                            <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                               data-tooltip="Facebook">
-                                <i class="fa fa-facebook"></i>
-                            </a>
-
-                            <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                               data-tooltip="Twitter">
-                                <i class="fa fa-twitter"></i>
-                            </a>
-
-                            <a href="#" class="fs-14 cl3 hov-cl1 trans-04 lh-10 p-lr-5 p-tb-2 m-r-8 tooltip100"
-                               data-tooltip="Google Plus">
-                                <i class="fa fa-google-plus"></i>
-                            </a>
+                            <!--                        <div class="flex-w flex-m p-l-100 p-t-40 respon7">-->
+                            <div class="form-group">
+                                <h4 class="m-tb-5">Prompt</h4>
+                                <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 m-tb-10 prompt"
+                                          id="prompt" name="prompt"></textarea>
+                                <button @click.prevent="generateImg()"
+                                        class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                                    Генерировать
+                                </button>
+                            </div>
+                            <!--                        <div class="flex-w flex-m p-l-100 p-t-40 respon7">-->
+                            <div class="form-group">
+                                <div class="size-110 bor8 stext-102 cl2 p-lr-20">
+                                    <img class="generatedImg" src="/assets/images/loading.gif" alt="IMG-PRODUCT" id="result">
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -396,21 +401,33 @@ export default {
 
             // curClotheType: 1,
             curPrintStyle: 1,
-            curSize: 1,
-            curColor: 1,
+            curSize: null,
+            curColor: null,
 
             product: [],
+            generatedImg: '',
         }
     },
     methods: {
-        setColor(color) {
-            this.curColor = color
-        },
-        setSize(size) {
-            this.curSize = size
-        },
-        setPrintStyle(printStyle) {
-            this.curPrintStyle = printStyle
+
+        generateImg() {
+            let prompt = $('#prompt').val();
+
+            this.axios.get('/api/generate', {
+                params: {
+                    prompt: prompt,
+                }
+            })
+                .then(res => {
+                    this.generatedImg = res.data.output[0]
+                })
+                .finally(v => {
+                    $(document).trigger('changed')
+                })
+
+            // console.log($('.generatedImg'), this.generatedImg);
+
+            $('.generatedImg').attr("src", this.generatedImg);
         },
         getPlayerProduct(clotheType) {
             this.axios.get('/api/player_product', {
@@ -419,12 +436,22 @@ export default {
                 }
             })
                 .then(res => {
-                    console.log(res);
+                    // console.log(res);
                     // this.product = res.data.data
                 })
                 .finally(v => {
                     $(document).trigger('changed')
                 })
+        },
+
+        setColor(color) {
+            this.curColor = color
+        },
+        setSize(size) {
+            this.curSize = size
+        },
+        setPrintStyle(printStyle) {
+            this.curPrintStyle = printStyle
         },
         // getProduct() {
         //     this.axios.get(`/api/player_products/${this.curClotheType}`)
@@ -472,7 +499,7 @@ export default {
                 })
         },
 
-        addToCart(id, isSingle) {
+        addToCart(product, isSingle) {
 
             let qty = isSingle ? 1 : $('.number-text' ).val();
             let cart = localStorage.getItem('cart');
@@ -480,8 +507,14 @@ export default {
 
             let newProduct = [
                 {
-                    'id': id,
+                    'id': product.id,
+                    'slug': product.slug,
                     'qty': qty,
+                    'title': product.title,
+                    'price': product.price,
+                    'image': product.imageUrl,
+                    'color': this.curColor,
+                    'size': this.curSize,
                 }
             ];
 
@@ -490,7 +523,7 @@ export default {
             } else {
                 cart = JSON.parse(cart)
                 cart.forEach(productInCart => {
-                    if (productInCart.id === id) {
+                    if (productInCart.id === product.id) {
                         productInCart.qty = Number(productInCart.qty) + Number(qty)
                         newProduct = null
                     }
@@ -500,10 +533,56 @@ export default {
             }
 
         },
+
+        handleFileSelect(evt) {
+            var file = evt.target.files; // FileList object
+            var f = file[0];
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+                alert("Image only please....");
+            }
+            var reader = new FileReader();
+            // Closure to capture the file information.
+            reader.onload = (function(theFile) {
+                return function(e) {
+                    // Render thumbnail.
+                    var span = document.createElement('span');
+                    span.innerHTML = ['<img class="thumb" title="', escape(theFile.name), '" src="', e.target.result, '" />'].join('');
+                    document.getElementById('output').insertBefore(span, null);
+                };
+            })(f);
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+        },
     }
 }
 </script>
 
 <style>
+
+.generatedImg {
+    max-width: 100%;
+    width: auto;
+    /*border: 1px solid #182238;*/
+}
+
+.custom-file-input {
+    height: 35px;
+}
+
+i.fa {
+    width: 35px;
+    height: 35px;
+    line-height: 35px;
+    text-align: center;
+    margin-right: -35px;
+    position: relative;
+    z-index: 1;
+    float: left;
+}
+
+i.fa + input {
+    padding-left: 35px;
+}
 
 </style>

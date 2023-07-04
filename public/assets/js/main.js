@@ -100,7 +100,6 @@
 
                 $('.sub-menu-m').each(function () {
                     if ($(this).css('display') == 'block') {
-                        console.log('hello');
                         $(this).css('display', 'none');
                         $(arrowMainMenu).removeClass('turn-arrow-main-menu-m');
                     }
@@ -181,7 +180,6 @@
         });
 
         $('.js-show-search').on('click', function () {
-            console.log(2)
             $(this).toggleClass('show-search');
             $('.panel-search').slideToggle(400);
 

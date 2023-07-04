@@ -15,7 +15,7 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
+    'paths' => ['api/*', 'sanctum/csrf-cookie', 'https://stablediffusionapi.com/api/v3/text2img'],
 
     'allowed_methods' => ['*'],
 

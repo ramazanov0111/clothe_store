@@ -3,13 +3,10 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Tymon\JWTAuth\Contracts\JWTSubject;
 
 /**
  * Пользователи
@@ -21,6 +18,7 @@ use Laravel\Sanctum\HasApiTokens;
  * @property string firstname
  * @property string email
  * @property string password
+ * @property string|null auth_token
  * @property string|null lastname
  * @property Carbon|null birthday
  * @property string|null address
@@ -33,12 +31,11 @@ use Laravel\Sanctum\HasApiTokens;
  * @property-read Order|null orders
  *
  */
-class User extends Authenticatable
+class User extends Authenticatable implements JWTSubject
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use Notifiable;
 
     public const TABLE = 'users';
-
 
     /** @var string */
     protected $table = self::TABLE;
@@ -87,6 +84,23 @@ class User extends Authenticatable
         2 => self::FEMALE_GENDER,
     ];
 
+    /**
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * Access token для
+     * @return string|null
+     */
+    public function getAuthToken(): ?string
+    {
+        return $this->auth_token;
+    }
+
     public function getGenderTitleAttribute(): string
     {
         return self::GENDERS[$this->gender];
@@ -106,5 +120,25 @@ class User extends Authenticatable
     public function reviews(): HasMany
     {
         return $this->hasMany(Review::class, 'user_id', 'id');
+    }
+
+    /**
+     * Get the identifier that will be stored in the subject claim of the JWT.
+     *
+     * @return mixed
+     */
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+
+    /**
+     * Return a key value array, containing any custom claims to be added to the JWT.
+     *
+     * @return array
+     */
+    public function getJWTCustomClaims(): array
+    {
+        return [];
     }
 }

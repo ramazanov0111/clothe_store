@@ -26,13 +26,42 @@
 
                     <!-- Icon header -->
                     <div class="wrap-icon-header flex-w flex-r-m h-full">
-                        <div class="flex-c-m h-full p-r-25 bor6">
+                        <div class="flex-c-m h-full p-l-25 p-r-25 bor6">
                             <div class="icon-header-item cl0 hov-cl1 trans-04 p-lr-11 icon-header-noti js-show-cart"
                                  data-notify="2">
                                 <i class="zmdi zmdi-shopping-cart"></i>
                             </div>
                         </div>
 
+                        <div class="flex-c-m h-full p-l-25 p-r-25 bor6">
+                            <router-link to="#"
+                                         class="text-sm text-gray-700 dark:text-gray-500 underline dropdown-toggle"
+                                         data-toggle="dropdown" aria-expanded="false">
+                                <i class="zmdi zmdi-account"></i>
+                            </router-link>
+                            <ul v-if="accessToken" class="dropdown-menu text-small shadow" style="">
+                                <li>
+                                    <router-link class="dropdown-item" to="/account">Профиль</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="dropdown-item" to="/orders">Мои заказы</router-link>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li>
+                                    <a href="#" class="dropdown-item">Выйти</a>
+                                </li>
+                            </ul>
+                            <ul v-else class="dropdown-menu text-small shadow" style="">
+                                <li>
+                                    <router-link class="dropdown-item" to="/login">Вход</router-link>
+                                </li>
+                                <li>
+                                    <router-link class="dropdown-item" to="/registration">Регистрация</router-link>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </nav>
             </div>
@@ -111,50 +140,19 @@
 
             <div class="header-cart-content flex-w js-pscroll">
                 <ul class="header-cart-wrapitem w-full">
-                    <li class="header-cart-item flex-w flex-t m-b-12">
+
+                    <li v-for="cartProduct in cartProducts" class="header-cart-item flex-w flex-t m-b-12">
                         <div class="header-cart-item-img">
-                            <img src="/assets/images/item-cart-01.jpg" alt="IMG">
+                            <img :src="cartProduct.image" alt="IMG">
                         </div>
 
                         <div class="header-cart-item-txt p-t-8">
                             <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                White Shirt Pleat
+                                {{ cartProduct.title }}
                             </a>
 
                             <span class="header-cart-item-info">
-								1 x $19.00
-							</span>
-                        </div>
-                    </li>
-
-                    <li class="header-cart-item flex-w flex-t m-b-12">
-                        <div class="header-cart-item-img">
-                            <img src="/assets/images/item-cart-02.jpg" alt="IMG">
-                        </div>
-
-                        <div class="header-cart-item-txt p-t-8">
-                            <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                Converse All Star
-                            </a>
-
-                            <span class="header-cart-item-info">
-								1 x $39.00
-							</span>
-                        </div>
-                    </li>
-
-                    <li class="header-cart-item flex-w flex-t m-b-12">
-                        <div class="header-cart-item-img">
-                            <img src="/assets/images/item-cart-03.jpg" alt="IMG">
-                        </div>
-
-                        <div class="header-cart-item-txt p-t-8">
-                            <a href="#" class="header-cart-item-name m-b-18 hov-cl1 trans-04">
-                                Nixon Porter Leather
-                            </a>
-
-                            <span class="header-cart-item-info">
-								1 x $17.00
+								{{ cartProduct.qty }} x {{ cartProduct.price }}₽
 							</span>
                         </div>
                     </li>
@@ -162,18 +160,13 @@
 
                 <div class="w-full">
                     <div class="header-cart-total w-full p-tb-40">
-                        Total: $75.00
+                        Сумма: {{ total }}₽
                     </div>
 
                     <div class="header-cart-buttons flex-w w-full">
-                        <router-link to="cart"
+                        <router-link to="/cart"
                                      class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-r-8 m-b-10">
                             Показать корзину
-                        </router-link>
-
-                        <router-link to="cart"
-                           class="flex-c-m stext-101 cl0 size-107 bg3 bor2 hov-btn3 p-lr-15 trans-04 m-b-10">
-                            Check Out
                         </router-link>
                     </div>
                 </div>
@@ -389,12 +382,6 @@
                     </a>
                 </div>
 
-                <!--          <p class="stext-107 cl6 txt-center">-->
-                <!--            &lt;!&ndash; Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. &ndash;&gt;-->
-                <!--            Copyright &copy;<script>document.write(new Date().getFullYear().toString());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>-->
-                <!--            &lt;!&ndash; Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. &ndash;&gt;-->
-
-                <!--          </p>-->
             </div>
         </div>
     </footer>
@@ -411,33 +398,60 @@
 
 <script>
 
+import api from "./api";
+import HeaderComponent from './components/Header'
+
 export default {
     name: 'App',
+    components: {HeaderComponent},
+
     mounted() {
         $(document).trigger('changed')
-        this.getCartData()
         this.getCartProducts()
+        this.getAuthUser()
+        this.getAccessToken()
+    },
+    updated() {
+        this.getAccessToken()
+        this.getAuthUser()
     },
 
     data() {
         return {
-            cartData: [],
             cartProducts: [],
+            total: 0,
+            user: null,
+            accessToken: null
         }
     },
 
     methods: {
-        getCartData() {
-            let cart = localStorage.getItem('cart');
+        getAccessToken() {
+            this.accessToken = localStorage.getItem('access_token')
+        },
+        async getAuthUser() {
+            await api.post('/api/auth/me')
+                .then(res => {
+                    this.user = res.data
+                    localStorage.setItem('user', JSON.stringify(res.data))
+                })
+        },
+        logout() {
+            console.log('logout');
         },
         getCartProducts() {
             this.cartProducts = JSON.parse(localStorage.getItem('cart'))
+            if (this.cartProducts) {
+                this.cartProducts.forEach(product => {
+                    this.total += Number(product.price * product.qty)
+                })
+            }
         },
     },
 }
 
-$(document).ready(function() {
-    $('body').on('click', '.number-minus, .number-plus', function(){
+$(document).ready(function () {
+    $('body').on('click', '.number-minus, .number-plus', function () {
         var $row = $(this).closest('.number');
         var $input = $row.find('.number-text');
         var step = $row.data('step');
@@ -452,7 +466,7 @@ $(document).ready(function() {
         return false;
     });
 
-    $('body').on('change', '.number-text', function(){
+    $('body').on('change', '.number-text', function () {
         var $input = $(this);
         var $row = $input.closest('.number');
         var step = $row.data('step');
@@ -472,5 +486,9 @@ $(document).ready(function() {
 </script>
 
 <style>
+
+i.zmdi-account {
+    font-size: 24px;
+}
 
 </style>

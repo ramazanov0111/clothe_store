@@ -10,8 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * Изображение товара со сгенерированной пользователем картинкой (для товаров в корзине)
  *
  * @property int id
- * @property int user_id - ID пользователя
- * @property int fid - ID изображения
+ * @property int|null user_id - ID пользователя
  * @property string filename - Название изображения
  * @property Carbon|null created_at - Дата создания
  * @property Carbon|null updated_at - Дата обновления
@@ -29,7 +28,6 @@ class GeneratedImage extends Model
 
     protected $fillable = [
         'user_id',
-        'fid',
         'filename',
         'created_at',
         'updated_at',
@@ -37,7 +35,6 @@ class GeneratedImage extends Model
 
     protected $casts = [
         'user_id' => 'integer',
-        'fid' => 'string',
         'filename' => 'string',
         'created_at' => 'datetime',
         'updated_at' => 'datetime',

@@ -58,8 +58,8 @@
 
                                 <div class="size-204 respon6-next">
                                     <div class="rs1-select2 bor8 bg0">
-                                        <select class="js-select2" name="time">
-                                            <option>Выберите размер</option>
+                                        <select v-model="curSize" class="js-select2" name="size">
+                                            <option disabled value="">Выберите размер</option>
                                             <option v-for="size in sizes" :value="size.code">
                                                 {{ size.name }}
                                             </option>
@@ -76,8 +76,8 @@
 
                                 <div class="size-204 respon6-next">
                                     <div class="rs1-select2 bor8 bg0">
-                                        <select class="js-select2" name="time">
-                                            <option>Выберите цвет</option>
+                                        <select v-model="curColor" class="js-select2" name="color">
+                                            <option disabled value="">Выберите цвет</option>
                                             <option v-for="color in colors" :value="color.code">
                                                 {{ color.name }}
                                             </option>
@@ -91,17 +91,6 @@
                                 <div class="size-204 flex-w flex-m respon6-next">
                                     <div class="wrap-num-product flex-w m-r-20 m-tb-10">
 
-<!--                                        <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m">-->
-<!--                                            <i class="fs-16 zmdi zmdi-minus"></i>-->
-<!--                                        </div>-->
-
-<!--                                        <input class="mtext-104 cl3 txt-center num-product" type="number"-->
-<!--                                               name="num-product" value="1">-->
-
-<!--                                        <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m">-->
-<!--                                            <i class="fs-16 zmdi zmdi-plus"></i>-->
-<!--                                        </div>-->
-
                                         <div class="number" data-step="1" data-min="1" data-max="100">
                                             <input class="number-text" type="text" name="count" value="1">
                                             <a href="#" class="number-minus">−</a>
@@ -109,7 +98,7 @@
                                         </div>
                                     </div>
 
-                                    <button @click.prevent="addToCart(product.id, false)"
+                                    <button @click.prevent="addToCart(product, false)"
                                         class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
                                         В корзину
                                     </button>
@@ -653,11 +642,13 @@ export default {
             product: [],
             colors: [],
             sizes: [],
+            curSize: '',
+            curColor: '',
         }
     },
 
     methods: {
-        addToCart(id, isSingle) {
+        addToCart(product, isSingle) {
 
             let qty = isSingle ? 1 : $('.number-text' ).val();
             let cart = localStorage.getItem('cart');
@@ -665,8 +656,14 @@ export default {
 
             let newProduct = [
                 {
-                    'id': id,
+                    'id': product.id,
+                    'slug': product.slug,
                     'qty': qty,
+                    'title': product.title,
+                    'price': product.price,
+                    'image': product.imageUrl,
+                    'color': this.curColor,
+                    'size': this.curSize,
                 }
             ];
 
@@ -675,7 +672,7 @@ export default {
             } else {
                 cart = JSON.parse(cart)
                 cart.forEach(productInCart => {
-                    if (productInCart.id === id) {
+                    if (productInCart.id === product.id) {
                         productInCart.qty = Number(productInCart.qty) + Number(qty)
                         newProduct = null
                     }
@@ -712,6 +709,12 @@ export default {
                 .finally(v => {
                     $(document).trigger('changed')
                 })
+        },
+        setColor(color) {
+            this.curColor = color
+        },
+        setSize(size) {
+            this.curSize = size
         },
     }
 }

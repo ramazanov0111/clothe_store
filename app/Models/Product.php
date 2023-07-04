@@ -187,23 +187,23 @@ class Product extends Model
         ],
         [
             'name' => self::L_SIZE,
-            'code' => 1,
+            'code' => 4,
         ],
         [
             'name' => self::XL_SIZE,
-            'code' => 2,
+            'code' => 5,
         ],
         [
             'name' => self::XXL_SIZE,
-            'code' => 3,
+            'code' => 6,
         ],
         [
             'name' => self::XXXL_SIZE,
-            'code' => 3,
+            'code' => 7,
         ],
         [
             'name' => self::XXXXL_SIZE,
-            'code' => 3,
+            'code' => 8,
         ],
     ];
 

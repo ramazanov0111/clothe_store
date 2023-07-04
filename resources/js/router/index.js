@@ -1,4 +1,4 @@
-import {createRouter, createWebHistory} from 'vue-router'
+import {createRouter, createWebHistory} from 'vue-router';
 
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
@@ -28,7 +28,49 @@ const router = createRouter({
             name: 'cart',
             component: () => import('../views/Cart.vue')
         },
+        {
+            path: '/orders',
+            name: 'orders',
+            component: () => import('../views/order/Index.vue')
+        },
+        {
+            path: '/account',
+            name: 'account',
+            component: () => import('../views/user/Account.vue')
+        },
+        {
+            path: '/login',
+            name: 'login',
+            component: () => import('../views/user/Login.vue')
+        },
+        {
+            path: '/registration',
+            name: 'registration',
+            component: () => import('../views/user/Registration.vue')
+        },
+        // otherwise redirect to home
+        { path: '/*', redirect: '/', name: '404' }
     ]
+})
+
+router.beforeEach((to, from, next) => {
+
+    const accessToken = localStorage.getItem('access_token')
+
+    if (to.name === 'account' || to.name === 'orders') {
+        if (!accessToken) {
+             return next({
+                 name: 'login'
+             })
+        }
+    }
+    if ((to.name === 'login' || to.name === 'registration') && accessToken) {
+        return next({
+            name: 'account'
+        })
+    }
+
+    next()
 })
 
 export default router

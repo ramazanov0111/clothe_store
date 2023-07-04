@@ -39,7 +39,7 @@ Route::group(['prefix' => 'proger'], function () {
         Route::delete('/{image}', \App\Http\Controllers\Image\DeleteController::class)->name('image.delete');
     });
 
-    Route::group(['prefix' => 'users'], function () {
+    Route::group(['prefix' => 'users'], static function () {
         Route::get('/', \App\Http\Controllers\User\IndexController::class)->name('user.index');
         Route::get('/create', \App\Http\Controllers\User\CreateController::class)->name('user.create');
         Route::post('/', \App\Http\Controllers\User\StoreController::class)->name('user.store');
@@ -62,3 +62,7 @@ Route::group(['prefix' => 'proger'], function () {
 });
 
 Route::get('{page}', MainController::class)->where('page', '.*');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

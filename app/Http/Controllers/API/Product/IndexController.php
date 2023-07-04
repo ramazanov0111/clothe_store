@@ -10,6 +10,8 @@ use App\Http\Resources\Product\PrintStyleResource;
 use App\Http\Resources\Product\ProductResource;
 use App\Http\Resources\Product\SizeResource;
 use App\Models\Product;
+use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
@@ -65,5 +67,37 @@ class IndexController extends Controller
             ->first();
 
         return new ProductResource($product);
+    }
+
+    public function actionGetCartProductsBySlugs(Request $request): JsonResponse
+    {
+        $products = $request->get('products');
+
+        $productData = [];
+        foreach ($products as $item) {
+            $item = json_decode($item);
+            $product = Product::query()
+                ->where('slug', $item->slug)
+                ->get()
+                ->first();
+            $productData[] = [
+                'id' => $product->id,
+                'slug' => $product->slug,
+                'title' => $product->title,
+                'price' => $product->price,
+                'image' => $product->imageUrl,
+                'qty' => $item->qty,
+                'summa' => $product->price * $item->qty,
+            ];
+        }
+
+        return new JsonResponse($productData);
+    }
+
+    public function actionGetUserList(): array
+    {
+        return User::query()
+            ->get()
+            ->all();
     }
 }

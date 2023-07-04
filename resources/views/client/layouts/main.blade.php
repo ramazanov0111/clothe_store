@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="icon" type="image/png" href="{{ asset('assets/images/icons/favicon.png') }}"/>
+    <!-- Select2 -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/select2/css/select2.min.css') }}">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
+    <!-- Theme s tyle -->
+    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css') }}">
     <link rel="stylesheet" href="{{ asset('assets/vendor/bootstrap/css/bootstrap.min.css') }}"/>
     <link rel="stylesheet"
           href="{{ asset('assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css') }}"/>
@@ -23,8 +29,6 @@
     <link rel="stylesheet" href="{{ asset('assets/css/util.css') }}"/>
     <link rel="stylesheet" href="{{ asset('assets/css/main.css') }}"/>
 
-    <script type="text/javascript" src="{{ asset('js/manifest.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('js/vendor.js') }}"></script>
     <script type="text/javascript" src="{{ asset('js/app.js') }}" defer></script>
 </head>
 
@@ -119,6 +123,7 @@
         })
     });
 </script>
+
 <script type="text/javascript" src="{{ asset('assets/js/main.js') }}"></script>
 
 </html>
