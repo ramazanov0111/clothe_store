@@ -103,7 +103,10 @@ class User extends Authenticatable implements JWTSubject
 
     public function getGenderTitleAttribute(): string
     {
-        return self::GENDERS[$this->gender];
+        if ($this->gender) {
+            return self::GENDERS[$this->gender];
+        }
+        return '';
     }
 
     /**
