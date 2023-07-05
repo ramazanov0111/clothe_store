@@ -46,7 +46,7 @@ api.interceptors.response.use(config => {
     }
 
     if (error.response.status === 401) {
-        router.push({name: 'login'})
+        window.location.href = '/login';
     }
 });
 // end response

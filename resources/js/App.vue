@@ -50,7 +50,7 @@
                                     <hr class="dropdown-divider">
                                 </li>
                                 <li>
-                                    <a href="#" class="dropdown-item">Выйти</a>
+                                    <a href="#" @click.prevent="logout" class="dropdown-item">Выйти</a>
                                 </li>
                             </ul>
                             <ul v-else class="dropdown-menu text-small shadow" style="">
@@ -437,7 +437,8 @@ export default {
                 })
         },
         logout() {
-            console.log('logout');
+            localStorage.removeItem('access_token');
+            window.location.href = '/';
         },
         getCartProducts() {
             this.cartProducts = JSON.parse(localStorage.getItem('cart'))

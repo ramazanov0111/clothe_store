@@ -27,11 +27,11 @@ class IndexOrderResource extends JsonResource
         return [
             'id' => $this->id,
             'user_id' => $this->user_id,
-            'order_date' => Carbon::parse($this->order_date)->locale('ru')->format('jS \of F Y h:i'),
+            'order_date' => Carbon::parse($this->order_date)->format('d.m.Y'),
             'total' => $this->total,
             'status' => $status,
             'payment_status' => $paymentStatus,
-            'delivery_date' => Carbon::parse($this->delivery_date)->format('Y-m-d'),
+            'delivery_date' => Carbon::parse($this->delivery_date)->format('d.m.Y'),
         ];
     }
 }

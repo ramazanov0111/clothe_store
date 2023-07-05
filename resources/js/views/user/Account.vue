@@ -151,16 +151,6 @@ export default {
         async getUser() {
             this.user = JSON.parse(localStorage.getItem('user'));
         },
-        // getAuthUser() {
-        //     api.post('/api/auth/me')
-        //         .then(res => {
-        //             // console.log(res)
-        //             this.user = res.data
-        //         })
-        //         .finally(v => {
-        //             $(document).trigger('changed')
-        //         })
-        // },
         store() {
             axios.post('/api/users', {
                 firstname: this.firstname,
@@ -171,8 +161,6 @@ export default {
                 .then(res => {
                     console.log(res);
                 })
-
-            this.router.push({name: 'account'})
         }
     },
 }

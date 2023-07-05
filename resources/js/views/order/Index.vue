@@ -12,8 +12,6 @@
 			</span>
         </div>
     </div>
-
-
     <!-- Shoping Cart -->
     <form class="bg0 p-t-75 p-b-85">
         <div class="container">
@@ -21,37 +19,35 @@
                 <div class="col-lg-10 col-xl-7 m-lr-a uto m-b-50">
                     <div class="m-l-25 m-r--38 m-lr-0-xl">
                         <div class="wrap-table-shopping-cart">
-                            <table class="table-shopping-cart">
-                                <tr class="table_head">
-                                    <th class="column-1">Дата заказа</th>
-                                    <th class="column-2">Дата доставки</th>
-                                    <th class="column-3">Статус оплаты</th>
-                                    <th class="column-4">Статус заказа</th>
-                                    <th class="column-5">Сумма</th>
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th>Дата заказа</th>
+                                    <th>Дата доставки</th>
+                                    <th>Статус оплаты</th>
+                                    <th>Статус заказа</th>
+                                    <th>Сумма</th>
                                 </tr>
-
-                                <tr v-for="order in orders" class="table_row">
-                                    <td class="column-1">
+                                </thead>
+                                <tbody>
+                                <tr v-for="order in orders">
+                                    <td>
                                         {{ order.order_date }}
                                     </td>
-                                    <td class="column-2">
-<!--                                        <router-link :to="{name: 'product.show', params:{slug: product.slug}}"-->
-<!--                                                     class="stext-106 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">-->
-                                            {{ order.delivery_date }}
-<!--                                        </router-link>-->
+                                    <td>
+                                        {{ order.delivery_date }}
                                     </td>
-                                    <td class="column-3">
+                                    <td>
                                         {{ order.payment_status }}
                                     </td>
-                                    <td class="column-4">
-                                       {{ order.status }}
+                                    <td>
+                                        {{ order.status }}
                                     </td>
-                                    <td class="column-5">{{ order.total }}₽</td>
+                                    <td>{{ order.total }}₽</td>
                                 </tr>
-
+                                </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
 
@@ -109,7 +105,9 @@ export default {
             await api.get('/api/auth/orders')
                 .then(res => {
                     this.orders = res.data.data
-                    // localStorage.setItem('user', res.data)
+                    this.orders.filter(order => {
+                        this.totalPrice += order.total
+                    })
                 })
         },
     },
@@ -117,5 +115,48 @@ export default {
 </script>
 
 <style scoped>
+
+.table {
+    width: 100%;
+    border: none;
+    margin-bottom: 20px;
+}
+
+.table thead th {
+    font-weight: bold;
+    text-align: left;
+    border: none;
+    padding: 10px 15px;
+    background: #d8d8d8;
+    font-size: 14px;
+}
+
+.table thead tr th:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.table thead tr th:last-child {
+    border-radius: 0 8px 8px 0;
+}
+
+.table tbody td {
+    text-align: left;
+    border: none;
+    padding: 10px 15px;
+    font-size: 14px;
+    vertical-align: top;
+}
+
+.table tbody tr:nth-child(even) {
+    background: #f3f3f3;
+}
+
+.table tbody tr td:first-child {
+    border-radius: 8px 0 0 8px;
+}
+
+.table tbody tr td:last-child {
+    border-radius: 0 8px 8px 0;
+}
 
 </style>

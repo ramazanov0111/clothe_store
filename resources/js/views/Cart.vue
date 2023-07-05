@@ -262,8 +262,23 @@ export default {
                 'address': this.address,
                 'total_price': this.totalPrice,
             })
-                .then(res => {
-                    // console.log(res);
+                .then(() => {
+                    let password
+                    if (this.user) {
+                        password = this.user.password
+                    } else {
+                        password = this.email.split('@')[0]
+                    }
+
+                    axios.post('/api/auth/login', {
+                        email: this.email,
+                        password: password
+                    })
+                        .then(res => {
+                            localStorage.access_token = res.data.access_token
+                        })
+
+                    window.location.href = '/orders';
                 })
                 .finally(v => {
                     $(document).trigger('changed')
@@ -277,8 +292,11 @@ export default {
             })
         },
         minusQty(product) {
-            if (product.qty === 0) return
-            product.qty--
+            if (product.qty === 1) {
+                this.removeProduct(product.id)
+            } else {
+                product.qty--
+            }
             this.updateCart()
         },
         plusQty(product) {

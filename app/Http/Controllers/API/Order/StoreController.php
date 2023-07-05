@@ -69,8 +69,6 @@ class StoreController extends Controller
             $user = $issetUser;
         }
 
-        dd($user);
-
         /**
          * @var Order $order
          */
@@ -94,8 +92,8 @@ class StoreController extends Controller
                 'product_id' => $product->id,
                 'count' => $orderProduct['qty'],
                 'sum' => $product->price * $orderProduct['qty'],
-                'color' => $orderProduct['color'] ?? Product::WHITE_COLOR,
-                'size' => $orderProduct['size'] ?? Product::S_SIZE,
+                'color' => $orderProduct['color'] ?? Product::COLORS[0]['code'],
+                'size' => $orderProduct['size'] ?? Product::SIZES[0]['code'],
                 'print_style' => null,
                 'image_id' => null,
             ]);

@@ -48,11 +48,17 @@ export default {
                 password: this.password,
                 password_confirmation: this.password_confirmation
             })
-                .then(res => {
-                    console.log(res);
-                })
+                .then(() => {
+                    axios.post('/api/auth/login', {
+                        email: this.email,
+                        password: this.password
+                    })
+                        .then(res => {
+                            localStorage.access_token = res.data.access_token
+                        })
 
-            this.router.push({name: 'account'})
+                    window.location.href = '/account';
+                })
         }
     }
 }
