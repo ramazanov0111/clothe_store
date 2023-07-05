@@ -408,7 +408,6 @@ export default {
     mounted() {
         $(document).trigger('changed')
         this.getCartProducts()
-        this.getAuthUser()
         this.getAccessToken()
     },
     updated() {
