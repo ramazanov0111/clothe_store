@@ -42,7 +42,7 @@ Route::group(['prefix' => 'proger'], function () {
     Route::group(['prefix' => 'users'], static function () {
         Route::get('/', \App\Http\Controllers\User\IndexController::class)->name('user.index');
         Route::get('/create', \App\Http\Controllers\User\CreateController::class)->name('user.create');
-        Route::post('/', \App\Http\Controllers\User\StoreController::class)->name('user.store');
+        Route::post('/', [\App\Http\Controllers\User\StoreController::class, 'userRegister'])->name('user.store');
         Route::get('/{user}/edit', \App\Http\Controllers\User\EditController::class)->name('user.edit');
         Route::get('/{user}', \App\Http\Controllers\User\ShowController::class)->name('user.show');
         Route::patch('/{user}', \App\Http\Controllers\User\UpdateController::class)->name('user.update');
