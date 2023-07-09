@@ -54,6 +54,9 @@
                                    placeholder="+7(***)-**-**" required="">
                         </div>
                     </div>
+                    <h5 class="error mt-3 mb-3" v-if="errorMessage">
+                        {{ errorMessage }}
+                    </h5>
                     <hr class="col-8 my-4">
                 </div>
             </div>
@@ -236,12 +239,15 @@ export default {
             email: '',
             phone: '',
             address: '',
+            errorMessage: null,
         }
     },
 
     methods: {
         async getUser() {
-            this.user = JSON.parse(localStorage.getItem('user'));
+            if (localStorage.getItem('access_token')) {
+                this.user = JSON.parse(localStorage.getItem('user'));
+            }
         },
 
         setUserData() {
@@ -254,6 +260,7 @@ export default {
         },
 
         storeOrder() {
+            let authorized = !!this.user;
             this.axios.post('/api/orders', {
                 'products': this.cartProducts,
                 'firstname': this.firstname,
@@ -261,24 +268,21 @@ export default {
                 'phone': this.phone,
                 'address': this.address,
                 'total_price': this.totalPrice,
+                'authorized': authorized,
             })
-                .then(() => {
-                    let password
-                    if (this.user) {
-                        password = this.user.password
-                    } else {
-                        password = this.email.split('@')[0]
+                .then((res) => {
+                    if (res.data.error) {
+                        this.errorMessage = res.data.error;
                     }
-
-                    axios.post('/api/auth/login', {
-                        email: this.email,
-                        password: password
-                    })
-                        .then(res => {
-                            localStorage.access_token = res.data.access_token
-                        })
-
-                    window.location.href = '/orders';
+                    if (res.data.message) {
+                        this.errorMessage = res.data.message;
+                    }
+                    if (res.data.success) {
+                        if (this.user === null) {
+                            localStorage.setItem('access_token', res.data.access_token)
+                        }
+                        window.location.href = '/orders';
+                    }
                 })
                 .finally(v => {
                     $(document).trigger('changed')
@@ -321,5 +325,9 @@ export default {
 </script>
 
 <style scoped>
+
+.error {
+    color: #932828;
+}
 
 </style>

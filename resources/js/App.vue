@@ -407,19 +407,21 @@ export default {
 
     mounted() {
         $(document).trigger('changed')
-        this.getCartProducts()
+        // this.getCartProducts()
         this.getAccessToken()
+        this.getAuthUser()
     },
     updated() {
         this.getAccessToken()
-        this.getAuthUser()
+        // this.getAuthUser()
+        this.getCartProducts()
     },
 
     data() {
         return {
             cartProducts: [],
             total: 0,
-            user: null,
+            // user: null,
             accessToken: null
         }
     },
@@ -429,11 +431,13 @@ export default {
             this.accessToken = localStorage.getItem('access_token')
         },
         async getAuthUser() {
-            await api.post('/api/auth/me')
-                .then(res => {
-                    this.user = res.data
-                    localStorage.setItem('user', JSON.stringify(res.data))
-                })
+            if (this.accessToken) {
+                await api.post('/api/auth/me')
+                    .then(res => {
+                        // this.user = res.data
+                        localStorage.setItem('user', JSON.stringify(res.data))
+                    })
+            }
         },
         logout() {
             localStorage.removeItem('access_token');

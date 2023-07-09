@@ -21,36 +21,18 @@
                             <label for="firstname" class="col-md-4 col-form-label text-md-end">Имя</label>
 
                             <div class="col-md-6">
-                                <input id="firstname" v-model="firstname" type="text"
-                                       :class="{ 'is-invalid': submitted && !firstname }" class="input_box"
+                                <input id="firstname" v-model="firstname" type="text" class="form-control"
                                        name="firstname" required autocomplete="firstname" autofocus>
                                 <span>{{ user.firstname }}</span>
-
-                                <span v-show="submitted && !firstname" class="invalid-feedback" role="alert">
-                                    <strong>Имя обязательно</strong>
-                                </span>
                             </div>
                         </div>
                         <div class="row mb-3">
                             <label for="lastname" class="col-md-4 col-form-label text-md-end">Фамилия</label>
 
                             <div class="col-md-6">
-                                <input id="lastname" v-model="lastname" type="text" class="input_box"
+                                <input id="lastname" v-model="lastname" type="text" class="form-control"
                                        name="lastname" autocomplete="lastname" autofocus>
                                 <span>{{ user.lastname }}</span>
-                            </div>
-                        </div>
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">Пароль</label>
-
-                            <div class="col-md-6">
-                                <input id="password" v-model="password" type="password"
-                                       :class="{ 'is-invalid': submitted && !password }" class="input_box"
-                                       name="password" required autocomplete="password" autofocus>
-
-                                <span v-show="submitted && !password" class="invalid-feedback" role="alert">
-                                    <strong>Пароль обязателен</strong>
-                                </span>
                             </div>
                         </div>
 
@@ -58,14 +40,19 @@
                             <label for="email" class="col-md-4 col-form-label text-md-end">E-mail</label>
 
                             <div class="col-md-6">
-                                <input id="email" v-model="email" type="email"
-                                       :class="{ 'is-invalid': submitted && !email }" class="input_box"
+                                <input id="email" v-model="email" type="email" class="form-control"
                                        name="email" required autocomplete="email" autofocus>
                                 <span>{{ user.email }}</span>
+                            </div>
+                        </div>
 
-                                <span v-show="submitted && !email" class="invalid-feedback" role="alert">
-                                    <strong>E-mail обязателен</strong>
-                                </span>
+                        <div class="row mb-3">
+                            <label for="password" class="col-md-4 col-form-label text-md-end">Пароль</label>
+
+                            <div class="col-md-6">
+                                <input id="password" v-model="password" type="password" class="form-control"
+                                       name="password" required autocomplete="password" autofocus>
+                                <span>{{ user.password }}</span>
                             </div>
                         </div>
 
@@ -73,14 +60,9 @@
                             <label for="address" class="col-md-4 col-form-label text-md-end">Адрес</label>
 
                             <div class="col-md-6">
-                                <input id="address" v-model="address" type="text"
-                                       :class="{ 'is-invalid': submitted && !address }" class="input_box"
+                                <input id="address" v-model="address" type="text" class="form-control"
                                        name="address" required autocomplete="address" autofocus>
                                 <span>{{ user.address }}</span>
-
-                                <span v-show="submitted && !address" class="invalid-feedback" role="alert">
-                                    <strong>Адрес обязателен</strong>
-                                </span>
                             </div>
                         </div>
 
@@ -88,14 +70,9 @@
                             <label for="phone" class="col-md-4 col-form-label text-md-end">Телефон</label>
 
                             <div class="col-md-6">
-                                <input id="phone" v-model="phone" type="tel"
-                                       :class="{ 'is-invalid': submitted && !phone }" class="input_box"
+                                <input id="phone" v-model="phone" type="tel" class="form-control"
                                        name="phone" required autocomplete="phone" autofocus>
                                 <span>{{ user.phone }}</span>
-
-                                <span v-show="submitted && !phone" class="invalid-feedback" role="alert">
-                                    <strong>Телефон обязателен</strong>
-                                </span>
                             </div>
                         </div>
 
@@ -103,8 +80,14 @@
                             <label for="gender" class="col-md-4 col-form-label text-md-end">Пол</label>
 
                             <div class="col-md-6">
-                                <input id="gender" v-model="gender" type="text"
-                                       class="input_box" name="gender" autofocus>
+                                <select v-model="gender" class="select2-container--default" name="gender">
+                                    <option disabled value="">Выберите пол</option>
+                                    <option v-for="(key, value) in genders"
+                                            :value="value"
+                                            :selected="user.gender === value">
+                                        {{ key }}
+                                    </option>
+                                </select>
                             </div>
                         </div>
 
@@ -129,8 +112,10 @@ export default {
     name: "Account",
 
     mounted() {
-        $(document).trigger('changed')
+        // $(document).trigger('changed')
         this.getUser()
+        this.getGenders()
+        this.setUserData()
     },
 
     data() {
@@ -144,6 +129,7 @@ export default {
             phone: null,
             gender: null,
             submitted: false,
+            genders: null,
         }
     },
 
@@ -151,12 +137,33 @@ export default {
         async getUser() {
             this.user = JSON.parse(localStorage.getItem('user'));
         },
+        setUserData() {
+            if (this.user) {
+                this.firstname = this.user.firstname;
+                this.lastname = this.user.lastname;
+                this.email = this.user.email;
+                this.phone = this.user.phone;
+                this.address = this.user.address;
+            }
+        },
+        getGenders() {
+            this.axios.get('/api/genders')
+                .then(res => {
+                    this.genders = res.data
+                })
+                .finally(v => {
+                    $(document).trigger('changed')
+                })
+        },
         store() {
-            axios.post('/api/users', {
+            api.post('/api/users/update', {
                 firstname: this.firstname,
                 email: this.email,
                 password: this.password,
-                // password_confirmation: this.password_confirmation
+                lastname: this.lastname,
+                address: this.address,
+                phone: this.phone,
+                gender: this.gender,
             })
                 .then(res => {
                     console.log(res);

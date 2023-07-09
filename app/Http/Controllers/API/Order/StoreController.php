@@ -22,7 +22,7 @@ use Symfony\Component\HttpFoundation\Response as ResponseAlias;
 
 class StoreController extends Controller
 {
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(Request $request)
     {
         try {
             $data = $this->validate($request, [
@@ -32,18 +32,31 @@ class StoreController extends Controller
                 'address' => 'required|string',
                 'products' => 'required|array',
                 'total_price' => 'required|integer',
+                'authorized' => 'required|boolean',
             ]);
         } catch (ValidationException $ex) {
             return new JsonResponse([
-                'error' => 'Не удалось оформить заказ'
-            ], ResponseAlias::HTTP_BAD_REQUEST);
+                'error' => 'Заполните все поля!'
+            ]);
         }
 
-        $issetUser = User::query()
-            ->where('email', $data['email'])
-            ->first();
+        $authorized = $data['authorized'];
 
-        if (!$issetUser) {
+        if ($authorized) {
+            $user = User::query()
+                ->where('email', $data['email'])
+                ->first();
+        } else {
+            $issetUser = User::query()
+                ->where('email', $data['email'])
+                ->first();
+
+            if ($issetUser) {
+                return new JsonResponse([
+                    'message' => 'Пользователь с таким email уже существует!'
+                ]);
+            }
+
             $password = explode("@", $data['email']);
 
             /**
@@ -56,17 +69,7 @@ class StoreController extends Controller
                 'address' => $data['address'],
                 'phone' => $data['phone'],
             ]);
-
-            $sendUserData = (new UserService)->sendUserLoginData($user->email, $password);
-
-            if (!$sendUserData) {
-                $user->delete();
-                return new JsonResponse([
-                    'message' => 'E-mail не действителен, введите другой адрес электронной почты!'
-                ], ResponseAlias::HTTP_BAD_REQUEST);
-            }
-        } else {
-            $user = $issetUser;
+            $token = auth()->tokenById($user->id);
         }
 
         /**
@@ -99,6 +102,9 @@ class StoreController extends Controller
             ]);
         }
 
-        return new JsonResponse(null, ResponseAlias::HTTP_NO_CONTENT);
+        return new JsonResponse([
+            'success' => true,
+            'access_token' => $token ?? null
+        ]);
     }
 }

@@ -18,36 +18,34 @@
             <div class="row">
                 <div class="col-lg-10 col-xl-7 m-lr-a uto m-b-50">
                     <div class="m-l-25 m-r--38 m-lr-0-xl">
-                        <div class="wrap-table-shopping-cart">
-                            <table class="table">
-                                <thead>
-                                <tr>
-                                    <th>Дата заказа</th>
-                                    <th>Дата доставки</th>
-                                    <th>Статус оплаты</th>
-                                    <th>Статус заказа</th>
-                                    <th>Сумма</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <tr v-for="order in orders">
-                                    <td>
-                                        {{ order.order_date }}
-                                    </td>
-                                    <td>
-                                        {{ order.delivery_date }}
-                                    </td>
-                                    <td>
-                                        {{ order.payment_status }}
-                                    </td>
-                                    <td>
-                                        {{ order.status }}
-                                    </td>
-                                    <td>{{ order.total }}₽</td>
-                                </tr>
-                                </tbody>
-                            </table>
-                        </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>Дата заказа</th>
+                                <th>Дата доставки</th>
+                                <th>Статус оплаты</th>
+                                <th>Статус заказа</th>
+                                <th>Сумма</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="order in orders">
+                                <td>
+                                    {{ order.order_date }}
+                                </td>
+                                <td>
+                                    {{ order.delivery_date }}
+                                </td>
+                                <td>
+                                    {{ order.payment_status }}
+                                </td>
+                                <td>
+                                    {{ order.status }}
+                                </td>
+                                <td>{{ order.total }}₽</td>
+                            </tr>
+                            </tbody>
+                        </table>
                     </div>
                 </div>
 

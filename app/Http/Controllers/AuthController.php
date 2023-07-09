@@ -62,6 +62,7 @@ class AuthController extends Controller
             'firstname' => $currentUser->firstname,
             'lastname' => $currentUser->lastname,
             'email' => $currentUser->email,
+            'password' => $currentUser->password,
             'birthday' => $currentUser->birthday,
             'address' => $currentUser->address,
             'phone' => $currentUser->phone,

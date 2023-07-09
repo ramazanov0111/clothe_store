@@ -39,10 +39,10 @@ Route::group(['middleware' => 'api', 'prefix' => 'auth'], function () {
 });
 
 Route::group(['prefix' => 'users'], function () {
-    Route::post('/', StoreController::class);
+    Route::post('/', [StoreController::class, 'userRegister']);
+    Route::post('/update', [StoreController::class, 'updateUserData']);
 });
 
-//Route::get('/products', \App\Http\Controllers\API\Product\IndexController::class);
 Route::get('/products', [IndexController::class, 'actionGetProductList']);
 Route::get('/colors', [IndexController::class, 'actionGetColorList']);
 Route::get('/sizes', [IndexController::class, 'actionGetSizeList']);
@@ -53,3 +53,4 @@ Route::get('/player_product', [PlayerController::class, 'actionGetPlayerProduct'
 Route::get('/generate', [PlayerController::class, 'actionGenerateImage']);
 Route::post('/orders', \App\Http\Controllers\API\Order\StoreController ::class);
 Route::get('/cart_products', [IndexController::class, 'actionGetCartProductsBySlugs']);
+Route::get('/genders', [\App\Http\Controllers\API\User\IndexController::class, 'actionGetGenderList']);

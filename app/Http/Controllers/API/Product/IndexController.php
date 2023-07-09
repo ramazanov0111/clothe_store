@@ -93,11 +93,4 @@ class IndexController extends Controller
 
         return new JsonResponse($productData);
     }
-
-    public function actionGetUserList(): array
-    {
-        return User::query()
-            ->get()
-            ->all();
-    }
 }

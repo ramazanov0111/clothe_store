@@ -27,6 +27,8 @@
 
 <script>
 
+import login from "./Login";
+
 export default {
     name: "Registration",
 
@@ -48,15 +50,8 @@ export default {
                 password: this.password,
                 password_confirmation: this.password_confirmation
             })
-                .then(() => {
-                    axios.post('/api/auth/login', {
-                        email: this.email,
-                        password: this.password
-                    })
-                        .then(res => {
-                            localStorage.access_token = res.data.access_token
-                        })
-
+                .then( res => {
+                    localStorage.setItem('access_token', res.data.access_token)
                     window.location.href = '/account';
                 })
         }
