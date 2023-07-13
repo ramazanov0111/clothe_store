@@ -163,7 +163,7 @@ class Product extends Model
             'code' => 1,
         ],
         [
-            'name' => self::SWEATSHIRT_TYPE,
+            'name' => self::SERIGRAPHY_PRINT_STYLE,
             'code' => 2,
         ],
         [

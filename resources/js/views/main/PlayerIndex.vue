@@ -9,6 +9,36 @@
                 <div class="col-md-6 col-lg-5 p-b-30">
                     <div class="p-r-50 p-t-5 p-lr-0-lg">
 
+                        <div class="card-body">
+<!--                            <div class="form-group">-->
+<!--                                <label for="file">Выберите файл</label>-->
+<!--                                <div class="input-group" style="border: 1px solid #182238;">-->
+<!--                                    &lt;!&ndash;                                    <i class="fa fa-file" aria-hidden="true"></i>&ndash;&gt;-->
+<!--                                    <i class="fa fa-regular fa-image" aria-hidden="true"></i>-->
+<!--                                    <input type="file" class="custom-file-input" id="file" name="file" @change="handleFileSelect()">-->
+<!--                                </div>-->
+<!--                                <div class="row">-->
+<!--                                    <span id="output"></span>-->
+<!--                                </div>-->
+<!--                            </div>-->
+
+                            <!--                        <div class="flex-w flex-m p-l-100 p-t-40 respon7">-->
+                            <div class="form-group">
+                                <h4 class="m-tb-5">Prompt</h4>
+                                <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 m-tb-10 prompt"
+                                          id="prompt" name="prompt"></textarea>
+                                <button @click.prevent="generateImg()"
+                                        class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
+                                    Генерировать
+                                </button>
+                            </div>
+                            <!--                        <div class="flex-w flex-m p-l-100 p-t-40 respon7">-->
+                            <div v-if="generatedImg" class="form-group">
+                                <div class="size-110 bor8 stext-102 cl2 p-lr-20">
+                                    <img class="generatedImg" src="" alt="IMG-PRODUCT" id="result">
+                                </div>
+                            </div>
+                        </div>
                         <!--  -->
                         <div class="p-t-33">
 
@@ -29,25 +59,6 @@
 
                             <div class="flex-w flex-r-m p-b-10">
                                 <div class="size-203 flex-c-m respon6">
-                                    Стиль принта
-                                </div>
-
-                                <div class="size-204 respon6-next">
-                                    <div class="rs1-select2 bor8 bg0">
-                                        <select class="js-select2" name="time">
-                                            <option>Выберите стиль принта</option>
-                                            <option v-for="printStyle in printStyles" :value="printStyle.code"
-                                                    @click="setPrintStyle(printStyle.code)">
-                                                {{ printStyle.name }}
-                                            </option>
-                                        </select>
-                                        <div class="dropDownSelect2"></div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="flex-w flex-r-m p-b-10">
-                                <div class="size-203 flex-c-m respon6">
                                     Размер
                                 </div>
 
@@ -58,6 +69,25 @@
                                             <option v-for="size in sizes" :value="size.code"
                                                     @click="setSize(size.code)">
                                                 {{ size.name }}
+                                            </option>
+                                        </select>
+                                        <div class="dropDownSelect2"></div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="flex-w flex-r-m p-b-10">
+                                <div class="size-203 flex-c-m respon6">
+                                    Стиль принта
+                                </div>
+
+                                <div class="size-204 respon6-next">
+                                    <div class="rs1-select2 bor8 bg0">
+                                        <select class="js-select2" name="time">
+                                            <option>Выберите стиль принта</option>
+                                            <option v-for="printStyle in printStyles" :value="printStyle.code"
+                                                    @click="setPrintStyle(printStyle.code)">
+                                                {{ printStyle.name }}
                                             </option>
                                         </select>
                                         <div class="dropDownSelect2"></div>
@@ -104,36 +134,6 @@
                             </div>
                         </div>
 
-                        <div class="card-body">
-                            <div class="form-group">
-                                <label for="file">Выберите файл</label>
-                                <div class="input-group" style="border: 1px solid #182238;">
-<!--                                    <i class="fa fa-file" aria-hidden="true"></i>-->
-                                    <i class="fa fa-regular fa-image" aria-hidden="true"></i>
-                                    <input type="file" class="custom-file-input" id="file" name="file" @change="handleFileSelect()">
-                                </div>
-                                <div class="row">
-                                    <span id="output"></span>
-                                </div>
-                            </div>
-
-                            <!--                        <div class="flex-w flex-m p-l-100 p-t-40 respon7">-->
-                            <div class="form-group">
-                                <h4 class="m-tb-5">Prompt</h4>
-                                <textarea class="size-110 bor8 stext-102 cl2 p-lr-20 m-tb-10 prompt"
-                                          id="prompt" name="prompt"></textarea>
-                                <button @click.prevent="generateImg()"
-                                        class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04">
-                                    Генерировать
-                                </button>
-                            </div>
-                            <!--                        <div class="flex-w flex-m p-l-100 p-t-40 respon7">-->
-                            <div class="form-group">
-                                <div class="size-110 bor8 stext-102 cl2 p-lr-20">
-                                    <img class="generatedImg" src="/assets/images/loading.gif" alt="IMG-PRODUCT" id="result">
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
@@ -405,15 +405,15 @@ export default {
             curColor: null,
 
             product: [],
-            generatedImg: '',
+            generatedImg: null,
         }
     },
     methods: {
 
-        generateImg() {
+        async generateImg() {
             let prompt = $('#prompt').val();
 
-            this.axios.get('/api/generate', {
+            await this.axios.get('/api/generate', {
                 params: {
                     prompt: prompt,
                 }
