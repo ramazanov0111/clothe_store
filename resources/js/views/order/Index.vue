@@ -1,4 +1,9 @@
 <template>
+
+    <div class="container-fluid order-page">
+        <h2 class="mb-3">Ваши заказы</h2>
+    </div>
+
     <!-- breadcrumb -->
     <div class="container">
         <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -13,7 +18,7 @@
         </div>
     </div>
     <!-- Shoping Cart -->
-    <form class="bg0 p-t-75 p-b-85">
+    <div class="bg0 p-t-75 p-b-85">
         <div class="container">
             <div class="row">
                 <div class="col-lg-10 col-xl-7 m-lr-a uto m-b-50">
@@ -68,12 +73,11 @@
 								</span>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </div>
 </template>
 
 <script>
@@ -155,6 +159,21 @@ export default {
 
 .table tbody tr td:last-child {
     border-radius: 0 8px 8px 0;
+}
+
+.order-page {
+    -ms-flex-align: center;
+    align-items: center;
+    /*background-color: #e9ecef;*/
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    /*height: 100vh;*/
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 30px 0 0;
+    padding-top: 30px;
 }
 
 </style>

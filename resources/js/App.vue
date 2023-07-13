@@ -185,7 +185,7 @@
     <SliderComponent v-if="!pages.includes(this.$route.name)"></SliderComponent>
 
     <!-- Контент -->
-    <div id="scroll-content">
+    <div id="scroll-content" class="pt-5">
         <router-view></router-view>
     </div>
 

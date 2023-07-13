@@ -1,4 +1,9 @@
 <template>
+
+    <div class="container-fluid account-page">
+        <h2 class="mb-3">Анкета пользователя</h2>
+    </div>
+
     <!-- breadcrumb -->
     <div class="container">
         <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -10,7 +15,10 @@
 				Профиль пользователя
 			</span>
         </div>
-        <div class="row justify-content-center mt-5">
+    </div>
+
+    <div class="bg0 p-t-75 p-b-85">
+        <div class="container">
             <div class="col-md-12">
                 <h5>Ваши данные</h5>
                 <div class="user-panel mb-3 mt-3 p-3">
@@ -182,8 +190,23 @@ export default {
 }
 
 .user-panel {
-    border: 1px solid #0707076F;
-    border-radius: 3px;
+    border: 1px solid rgba(65, 61, 61, 0.44);
+    border-radius: 5px;
+}
+
+.account-page {
+    -ms-flex-align: center;
+    align-items: center;
+    /*background-color: #e9ecef;*/
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    /*height: 100vh;*/
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 30px 0 0;
+    padding-top: 30px;
 }
 
 </style>
