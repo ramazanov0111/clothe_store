@@ -6403,21 +6403,27 @@ a.bg-dark:focus, a.bg-dark:hover {
     width: 25% !important
 }
 
+@media (max-width: 534px) {
+    .w-25 {
+        width: 70% !important;
+    }
+}
+
 @media (min-width: 535px) {
     .w-25 {
-        width: 50% !important;
+        width: 60% !important;
     }
 }
 
 @media (min-width: 768px) {
     .w-25 {
-        width: 40% !important;
+        width: 50% !important;
     }
 }
 
 @media (min-width: 992px) {
     .w-25 {
-        width: 35% !important;
+        width: 40% !important;
     }
 }
 

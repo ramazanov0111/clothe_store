@@ -360,7 +360,7 @@ export default {
 
     updated() {
         this.getAccessToken()
-        this.getAuthUser()
+        // this.getAuthUser()
         this.getCartProducts()
         this.getPage()
     },
