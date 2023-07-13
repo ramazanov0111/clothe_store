@@ -182,7 +182,7 @@
     </div>
 
     <!-- Слайдер категорий -->
-    <SliderComponent v-if="slideVisible"></SliderComponent>
+    <SliderComponent v-if="!pages.includes(this.$route.name)"></SliderComponent>
 
     <!-- Контент -->
     <div id="scroll-content">
@@ -355,35 +355,25 @@ export default {
         // this.getCartProducts()
         this.getAccessToken()
         this.getAuthUser()
-        this.getPage()
     },
 
     updated() {
         this.getAccessToken()
         // this.getAuthUser()
         this.getCartProducts()
-        this.getPage()
     },
 
     data() {
         return {
+            pages: ['login', 'registration', 'orders', 'account'],
             cartProducts: [],
             total: 0,
             user: null,
             accessToken: null,
-            slideVisible: true,
         }
     },
 
     methods: {
-        async getPage() {
-            let {href} = window.location;
-            let pages = ['login', 'registration', 'orders', 'account'];
-
-            let page = href.split('/');
-
-            this.slideVisible = !pages.includes(page[page.length - 1]);
-        },
 
         getAccessToken() {
             this.accessToken = localStorage.getItem('access_token')
