@@ -60,7 +60,7 @@
 <script>
 
 export default {
-    name: "Slider",
+    name: "Slider"
 }
 
 </script>

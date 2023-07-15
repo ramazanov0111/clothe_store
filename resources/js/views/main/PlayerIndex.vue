@@ -10,17 +10,17 @@
                     <div class="p-r-50 p-t-5 p-lr-0-lg">
 
                         <div class="card-body">
-<!--                            <div class="form-group">-->
-<!--                                <label for="file">Выберите файл</label>-->
-<!--                                <div class="input-group" style="border: 1px solid #182238;">-->
-<!--                                    &lt;!&ndash;                                    <i class="fa fa-file" aria-hidden="true"></i>&ndash;&gt;-->
-<!--                                    <i class="fa fa-regular fa-image" aria-hidden="true"></i>-->
-<!--                                    <input type="file" class="custom-file-input" id="file" name="file" @change="handleFileSelect()">-->
-<!--                                </div>-->
-<!--                                <div class="row">-->
-<!--                                    <span id="output"></span>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <!--                            <div class="form-group">-->
+                            <!--                                <label for="file">Выберите файл</label>-->
+                            <!--                                <div class="input-group" style="border: 1px solid #182238;">-->
+                            <!--                                    &lt;!&ndash;                                    <i class="fa fa-file" aria-hidden="true"></i>&ndash;&gt;-->
+                            <!--                                    <i class="fa fa-regular fa-image" aria-hidden="true"></i>-->
+                            <!--                                    <input type="file" class="custom-file-input" id="file" name="file" @change="handleFileSelect()">-->
+                            <!--                                </div>-->
+                            <!--                                <div class="row">-->
+                            <!--                                    <span id="output"></span>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
 
                             <!--                        <div class="flex-w flex-m p-l-100 p-t-40 respon7">-->
                             <div class="form-group">
@@ -139,50 +139,10 @@
 
                 <div class="col-md-6 col-lg-7 p-b-30">
                     <div class="p-l-25 p-r-30 p-lr-0-lg">
-                        <div class="wrap-slick3 flex-sb flex-w">
-                            <div class="wrap-slick3-dots"></div>
-                            <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
-
-                            <div class="slick3 gallery-lb">
-
-                                <div class="item-slick3" data-thumb="/assets/images/model/manuel-animated-001.jpg">
-                                    <div class="wrap-pic-w pos-relative">
-                                        <img src="/assets/images/model/manuel-animated-001.jpg" alt="IMG-PRODUCT">
-
-                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                           href="/assets/images/model/manuel-animated-001.jpg">
-                                            <i class="fa fa-expand"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="item-slick3" data-thumb="/assets/images/model/manuel-animated-002.jpg">
-                                    <div class="wrap-pic-w pos-relative">
-                                        <img src="/assets/images/model/manuel-animated-002.jpg" alt="IMG-PRODUCT">
-
-                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                           href="/assets/images/model/manuel-animated-002.jpg">
-                                            <i class="fa fa-expand"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div class="item-slick3" data-thumb="/assets/images/model/manuel-animated-003.jpg">
-                                    <div class="wrap-pic-w pos-relative">
-                                        <img src="/assets/images/model/manuel-animated-003.jpg" alt="IMG-PRODUCT">
-
-                                        <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04"
-                                           href="/assets/images/model/manuel-animated-003.jpg">
-                                            <i class="fa fa-expand"></i>
-                                        </a>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
+                        <canvas id="WebGL-output">
+                        </canvas>
                     </div>
                 </div>
-
             </div>
 
             <div class="bor10 m-t-50 p-t-43 p-b-40">
@@ -381,6 +341,9 @@
 </template>
 
 <script>
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
 
 export default {
     name: "PlayerIndex",
@@ -399,7 +362,7 @@ export default {
             printStyles: [],
             clotheTypes: [],
 
-            // curClotheType: 1,
+            curClotheType: null,
             curPrintStyle: 1,
             curSize: null,
             curColor: null,
@@ -437,11 +400,22 @@ export default {
             })
                 .then(res => {
                     // console.log(res);
-                    // this.product = res.data.data
+                    this.product = res.data.data
                 })
                 .finally(v => {
                     $(document).trigger('changed')
                 })
+
+            for (let i = 0; i < this.clotheTypes.length; i += 1) {
+                if (this.clotheTypes[i].code === clotheType) {
+                    this.curClotheType = this.clotheTypes[i]
+                    // this.curClotheType.name = this.clotheTypes[i].name
+                    // this.curClotheType.code = this.clotheTypes[i].code
+                    break;
+                }
+            }
+
+            this.setModel();
         },
 
         setColor(color) {
@@ -489,10 +463,12 @@ export default {
                     $(document).trigger('changed')
                 })
         },
+
         getClotheTypes() {
             this.axios.get('/api/clothe_types')
                 .then(res => {
                     this.clotheTypes = res.data.data
+                    this.curClotheType = this.clotheTypes[0];
                 })
                 .finally(v => {
                     $(document).trigger('changed')
@@ -501,9 +477,9 @@ export default {
 
         addToCart(product, isSingle) {
 
-            let qty = isSingle ? 1 : $('.number-text' ).val();
+            let qty = isSingle ? 1 : $('.number-text').val();
             let cart = localStorage.getItem('cart');
-            $('.number-text' ).val(1);
+            $('.number-text').val(1);
 
             let newProduct = [
                 {
@@ -534,6 +510,86 @@ export default {
 
         },
 
+        setModel() {
+            const loader = new GLTFLoader();
+
+            let canvas = document.getElementById('WebGL-output')
+
+            canvas.width = window.innerWidth / 2.5
+            canvas.height = window.innerHeight / 1.5
+
+            let scene = new THREE.Scene();
+            let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            // camera.position.x = -30;
+            // camera.position.y = 40;
+            camera.position.z = 30;
+
+            const renderer = new THREE.WebGLRenderer({
+                canvas: canvas,
+                antialias: true
+            })
+            renderer.shadowMap.enabled = true
+            renderer.setClearColor(0xDCDCDC);
+
+            let controls = new OrbitControls(camera, renderer.domElement);
+
+            let light = new THREE.DirectionalLight()
+            light.position.set(200, 0, 0)
+            light.castShadow = true
+            scene.add(light,
+                new THREE.AmbientLight(0xffffff, 0.25),
+                new THREE.HemisphereLight(0xffffff, 0x7f7f7f, 0.5)
+            );
+
+            let model = null;
+            let modelName = 't_shirt/scene.gltf';
+
+            if (this.curClotheType) {
+                if (this.curClotheType.name === 'Худи') {
+                    modelName = 'blue_hoodie/scene.gltf';
+                } else if (this.curClotheType.name === 'Футболка') {
+                    modelName = 't_shirt/scene.gltf';
+                } else {
+                    modelName = 'tshirt/scene.gltf';
+                }
+            }
+
+
+            loader.load(`/assets/models/${modelName}`,
+                function (gltf) {
+                    model = gltf.scene;
+                    let box3 = new THREE.Box3().setFromObject(model);
+                    let center = new THREE.Vector3();
+                    box3.getCenter(center);
+                    model.position.sub(center);
+                    scene.add(model);
+                    // console.log(model)
+
+                },
+                function (xhr) {
+
+                    console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+
+                },
+                function (error) {
+
+                    console.error(error);
+                    console.log('Произошла ошибка!');
+
+                });
+
+            const rendering = () => {
+                renderer.render(scene, camera)
+                requestAnimationFrame(rendering)
+                camera.lookAt(scene.position.x, scene.position.y, scene.position.z)
+            }
+            rendering()
+
+            // camera.lookAt(scene.position.x, scene.position.y, scene.position.z);
+            // $("#WebGL-output").append(renderer.domElement);
+            // renderer.render(scene, camera);
+        },
+
         handleFileSelect(evt) {
             var file = evt.target.files; // FileList object
             var f = file[0];
@@ -543,8 +599,8 @@ export default {
             }
             var reader = new FileReader();
             // Closure to capture the file information.
-            reader.onload = (function(theFile) {
-                return function(e) {
+            reader.onload = (function (theFile) {
+                return function (e) {
                     // Render thumbnail.
                     var span = document.createElement('span');
                     span.innerHTML = ['<img class="thumb" title="', escape(theFile.name), '" src="', e.target.result, '" />'].join('');
@@ -556,6 +612,7 @@ export default {
         },
     }
 }
+
 </script>
 
 <style>

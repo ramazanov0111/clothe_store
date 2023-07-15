@@ -291,9 +291,11 @@ export default {
 
         getCartProducts() {
             this.cartProducts = JSON.parse(localStorage.getItem('cart'))
-            this.cartProducts.forEach(product => {
-                this.totalPrice += Number(product.price * product.qty)
-            })
+            if (this.cartProducts) {
+                this.cartProducts.forEach(product => {
+                    this.totalPrice += Number(product.price * product.qty)
+                })
+            }
         },
         minusQty(product) {
             if (product.qty === 1) {
