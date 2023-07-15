@@ -365,7 +365,7 @@ export default {
 
     data() {
         return {
-            pages: ['login', 'registration', 'orders', 'account'],
+            pages: ['login', 'registration', 'orders', 'account', 'cart'],
             cartProducts: [],
             total: 0,
             user: null,

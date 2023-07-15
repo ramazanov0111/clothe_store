@@ -17,6 +17,7 @@
 			</span>
         </div>
     </div>
+
     <!-- Shoping Cart -->
     <div class="bg0 p-t-75 p-b-85">
         <div class="container">

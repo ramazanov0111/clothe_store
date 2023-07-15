@@ -1,4 +1,9 @@
 <template>
+
+    <div class="container-fluid cart-page">
+        <h2 class="mb-3">Корзина</h2>
+    </div>
+
     <!-- breadcrumb -->
     <div class="container">
         <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -12,7 +17,6 @@
 			</span>
         </div>
     </div>
-
 
     <!-- Shoping Cart -->
     <form class="bg0 p-t-75 p-b-85">
@@ -330,6 +334,21 @@ export default {
 
 .error {
     color: #932828;
+}
+
+.cart-page {
+    -ms-flex-align: center;
+    align-items: center;
+    /*background-color: #e9ecef;*/
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    /*height: 100vh;*/
+    -ms-flex-pack: center;
+    justify-content: center;
+    margin: 30px 0 0;
+    padding-top: 30px;
 }
 
 </style>
