@@ -344,6 +344,9 @@
 import * as THREE from 'three';
 import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
 import {OrbitControls} from 'three/addons/controls/OrbitControls.js';
+import {RGBELoader} from 'three/addons/loaders/RGBELoader.js';
+
+let scene, camera, renderer;
 
 export default {
     name: "PlayerIndex",
@@ -515,14 +518,12 @@ export default {
 
             let canvas = document.getElementById('WebGL-output')
 
-            canvas.width = window.innerWidth / 2.5
+            canvas.width = window.innerWidth / 3
             canvas.height = window.innerHeight / 1.5
 
             let scene = new THREE.Scene();
-            let camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            // camera.position.x = -30;
-            // camera.position.y = 40;
-            camera.position.z = 30;
+            let camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 1, 1000 );
+            camera.position.set( - 1.8, 0.6, 2.7 );
 
             const renderer = new THREE.WebGLRenderer({
                 canvas: canvas,
@@ -531,33 +532,45 @@ export default {
             renderer.shadowMap.enabled = true
             renderer.setClearColor(0xDCDCDC);
 
+            renderer.outputColorSpace = THREE.SRGBColorSpace;
+
             let controls = new OrbitControls(camera, renderer.domElement);
 
-            let light = new THREE.DirectionalLight()
-            light.position.set(200, 0, 0)
-            light.castShadow = true
-            scene.add(light,
-                new THREE.AmbientLight(0xffffff, 0.25),
-                new THREE.HemisphereLight(0xffffff, 0x7f7f7f, 0.5)
-            );
+            const hemiLight = new THREE.HemisphereLight( 0xffffff, 0x8d8d8d, 3 );
+            hemiLight.position.set( 0, 20, 0 );
+            scene.add( hemiLight );
+
+            const dirLight = new THREE.DirectionalLight( 0xffffff, 3 );
+            dirLight.position.set( 3, 10, 10 );
+            dirLight.castShadow = true;
+            dirLight.shadow.camera.top = 2;
+            dirLight.shadow.camera.bottom = - 2;
+            dirLight.shadow.camera.left = - 2;
+            dirLight.shadow.camera.right = 2;
+            dirLight.shadow.camera.near = 0.1;
+            dirLight.shadow.camera.far = 40;
+            scene.add( dirLight );
 
             let model = null;
             let modelName = 't_shirt/scene.gltf';
 
             if (this.curClotheType) {
                 if (this.curClotheType.name === 'Худи') {
-                    modelName = 'blue_hoodie/scene.gltf';
+                    // modelName = 'blue_hoodie/scene.gltf';
+                    // modelName = 'hoodie_black/scene.gltf';
+                    modelName = 'hoodie_white/scene.gltf';
+                    // modelName = 'hoodie.glb';
                 } else if (this.curClotheType.name === 'Футболка') {
                     modelName = 't_shirt/scene.gltf';
                 } else {
-                    modelName = 'tshirt/scene.gltf';
+                    modelName = 't_shirt/scene.gltf';
                 }
             }
 
-
             loader.load(`/assets/models/${modelName}`,
                 function (gltf) {
-                    model = gltf.scene;
+                    // console.log(gltf.scene.children[0][0]);
+                    model = gltf.scene.children[0];
                     let box3 = new THREE.Box3().setFromObject(model);
                     let center = new THREE.Vector3();
                     box3.getCenter(center);
@@ -567,15 +580,11 @@ export default {
 
                 },
                 function (xhr) {
-
                     console.log((xhr.loaded / xhr.total * 100) + '% loaded');
-
                 },
                 function (error) {
-
                     console.error(error);
                     console.log('Произошла ошибка!');
-
                 });
 
             const rendering = () => {
@@ -589,6 +598,85 @@ export default {
             // $("#WebGL-output").append(renderer.domElement);
             // renderer.render(scene, camera);
         },
+
+        // setModel() {
+        //
+        //     let canvas = document.getElementById('WebGL-output')
+        //
+        //     scene = new THREE.Scene();
+        //     scene.background = new THREE.Color(0xDCDCDC);
+        //
+        //     camera = new THREE.PerspectiveCamera(40, window.innerWidth / window.innerHeight, 1, 5000);
+        //     camera.rotation.y = 45 / 180 * Math.PI;
+        //     camera.position.set(-1.8, 0.6, 2.7);
+        //
+        //     let light = new THREE.DirectionalLight();
+        //     light.position.set(200, 0, 0);
+        //     light.castShadow = true;
+        //
+        //     scene.add(light,
+        //         new THREE.AmbientLight(0xffffff, 100),
+        //         new THREE.HemisphereLight(0xffffff, 0x7f7f7f, 0.5)
+        //     );
+        //
+        //     // let hlight = new THREE.AmbientLight(0x404040, 100);
+        //     // scene.add(hlight);
+        //
+        //     renderer = new THREE.WebGLRenderer({canvas: canvas, antialias: true});
+        //     renderer.setSize(window.innerWidth / 3, window.innerHeight / 1.5);
+        //     renderer.shadowMap.enabled = true
+        //     renderer.setClearColor(0xDCDCDC);
+        //     renderer.outputColorSpace = THREE.SRGBColorSpace;
+        //
+        //     // $("#WebGL-output").append(renderer.domElement);
+        //
+        //     let loader = new GLTFLoader
+        //
+        //     let model;
+        //     let modelName = 't_shirt/scene.gltf';
+        //
+        //     if (this.curClotheType) {
+        //         if (this.curClotheType.name === 'Худи') {
+        //             modelName = 'blue_hoodie/scene.gltf';
+        //             // modelName = 'hoodie.glb';
+        //         } else if (this.curClotheType.name === 'Футболка') {
+        //             modelName = 't_shirt/scene.gltf';
+        //         } else {
+        //             modelName = 't_shirt/scene.gltf';
+        //         }
+        //     }
+        //
+        //     loader.load(`/assets/models/${modelName}`, function (gltf) {
+        //             // let clothe = gltf.scene.children[0];
+        //             // clothe.scale.set(0.5, 0.5, 0.5);
+        //             model = gltf.scene;
+        //             let box3 = new THREE.Box3().setFromObject(model);
+        //             let center = new THREE.Vector3();
+        //             box3.getCenter(center);
+        //             model.position.sub(center);
+        //             scene.add(model);
+        //             console.log(model);
+        //             // renderer.render(scene, camera);
+        //         },
+        //         function (xhr) {
+        //             console.log((xhr.loaded / xhr.total * 100) + '% loaded');
+        //         },
+        //         function (error) {
+        //             console.error(error);
+        //             console.log('Произошла ошибка!');
+        //         });
+        //
+        //     const rendering = () => {
+        //         renderer.render(scene, camera)
+        //         requestAnimationFrame(rendering)
+        //         camera.lookAt(scene.position.x, scene.position.y, scene.position.z)
+        //     }
+        //     rendering()
+
+            // camera.lookAt(scene.position.x, scene.position.y, scene.position.z);
+            // $("#WebGL-output").append(renderer.domElement);
+            // renderer.render(scene, camera);
+        // },
 
         handleFileSelect(evt) {
             var file = evt.target.files; // FileList object

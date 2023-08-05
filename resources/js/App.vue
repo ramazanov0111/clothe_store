@@ -182,7 +182,7 @@
     </div>
 
     <!-- Слайдер категорий -->
-    <SliderComponent v-if="!pages.includes(this.$route.name)"></SliderComponent>
+    <SliderComponent v-show="!pages.includes(this.$route.name)"></SliderComponent>
 
     <!-- Контент -->
     <div id="scroll-content" class="pt-5">

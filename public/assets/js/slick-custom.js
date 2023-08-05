@@ -60,8 +60,16 @@
                 customPaging: function (slick, index) {
                     var linkThumb = $(slick.$slides[index]).data('thumb');
                     var caption = $(slick.$slides[index]).data('caption');
-                    return '<img src="' + linkThumb + '">' +
-                        '<span class="caption-dots-slick1">' + caption + '</span>';
+                    var link = $(slick.$slides[index]).data('link');
+                    if (link === 'player') {
+                        link = '/' + link;
+                    } else {
+                        link = '/';
+                    }
+                    return '<router-link to="' + link + '" class="white" tag="a">' +
+                    '<img src="' + linkThumb + '">' +
+                        '</router-link>' +
+                    '<span class="caption-dots-slick1">' + caption + '</span>';
                 },
             });
 

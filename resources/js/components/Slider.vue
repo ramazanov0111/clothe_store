@@ -6,7 +6,7 @@
             <div class="slick1">
 
                 <div class="item-slick1 bg-overlay1" style="background-image: url(/assets/images/slide-06.jpg);"
-                     data-thumb="/assets/images/thumb-02.jpg" data-caption="Non-Player">
+                     data-thumb="/assets/images/thumb-02.jpg" data-caption="Non-Player"  data-link="non-player">
                     <div class="container h-full">
                         <div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 
@@ -29,7 +29,7 @@
                 </div>
 
                 <div class="item-slick1 bg-overlay1" style="background-image: url(/assets/images/slide-07.jpg);"
-                     data-thumb="/assets/images/thumb-03.jpg" data-caption="Player">
+                     data-thumb="/assets/images/thumb-03.jpg" data-caption="Player" data-link="player">
                     <div class="container h-full">
                         <div class="flex-col-c-m h-full p-t-100 p-b-60 respon5">
 
@@ -55,12 +55,39 @@
             <div class="wrap-slick1-dots p-lr-10"></div>
         </div>
     </section>
+
+<!--    <VueGlide v-model="active">-->
+<!--        <vue-glide-slide-->
+<!--            v-for="i in 3"-->
+<!--            :key="i">-->
+<!--            Slide {{ i }}-->
+<!--        </vue-glide-slide>-->
+<!--    </VueGlide>-->
+
 </template>
 
 <script>
 
+import { Glide } from 'vue-glide-js';
+
+console.log(Glide);
+
 export default {
-    name: "Slider"
+    name: "Slider",
+
+    components: {
+        Glide
+    },
+
+    data () {
+        return {
+            active: 4
+        }
+    },
+
+    mounted() {
+        // $(document).trigger('changed')
+    },
 }
 
 </script>
