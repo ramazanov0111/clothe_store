@@ -56,34 +56,12 @@
         </div>
     </section>
 
-<!--    <VueGlide v-model="active">-->
-<!--        <vue-glide-slide-->
-<!--            v-for="i in 3"-->
-<!--            :key="i">-->
-<!--            Slide {{ i }}-->
-<!--        </vue-glide-slide>-->
-<!--    </VueGlide>-->
-
 </template>
 
 <script>
 
-import { Glide } from 'vue-glide-js';
-
-console.log(Glide);
-
 export default {
     name: "Slider",
-
-    components: {
-        Glide
-    },
-
-    data () {
-        return {
-            active: 4
-        }
-    },
 
     mounted() {
         // $(document).trigger('changed')
